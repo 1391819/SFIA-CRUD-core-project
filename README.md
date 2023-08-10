@@ -10,6 +10,7 @@ A simple online storefront regarding fashion and clothing.
 $PROJECT_ROOT/
 │   # application code
 ├─┬ application/
+│ ├── init.py
 │ │   # static assets - CSS, JS, and images
 │ ├── static/
 │ │   # HTML templates
