@@ -12,15 +12,13 @@ def index():
 
     # number of items we want to retrieve
     # for now, it's pretty much the entire database
-    n_items = 5
+    n_items = 4
 
     # generating random indices for selecting random items
     random_indices = random.sample(range(1, total_items + 1), n_items)
 
     # we query the database for the items with the generated indices
     random_items = Items.query.filter(Items.item_id.in_(random_indices)).all()
-
-    print(random_items)
 
     # rendering appropriate template
     return render_template("index.html", items=random_items)

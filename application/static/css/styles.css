@@ -103,6 +103,22 @@ p {
     background-color: rgb(92, 109, 156);
 }
 
+.flex-grid {
+    display: flex;
+    row-gap: 1em;
+    column-gap: 1em;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.flex-grid .item-card {
+    flex: 1;
+}
+
+.flex-grid a {
+    text-decoration: none;
+}
+
 /* ------------------------------------- */
 /* Item listing page */
 
