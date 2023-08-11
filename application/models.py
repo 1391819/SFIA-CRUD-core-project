@@ -1,7 +1,7 @@
 from application import db
 
 
-class Items:
+class Items(db.Model):
     item_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     stock = db.Column(db.Integer, nullable=False, default=0)
@@ -13,20 +13,20 @@ class Items:
     orders_items = db.relationship("OrdersItems", backref="items")
 
 
-class Categories:
+class Categories(db.Model):
     category_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     items = db.relationship("Items", backref="category")
 
 
-class Customers:
+class Customers(db.Model):
     customer_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
     orders = db.relationship("Orders", backref="customer")
 
 
-class Orders:
+class Orders(db.Model):
     order_id = db.Column(db.Integer, primary_key=True)
     customer_id = db.Column(
         db.Integer, db.ForeignKey("customers.customer_id"), nullable=False
@@ -36,7 +36,7 @@ class Orders:
     orders_items = db.relationship("OrdersItems", backref="orders")
 
 
-class OrdersItems:
+class OrdersItems(db.Model):
     orders_items_id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey("orders.order_id"), nullable=False)
     item_id = db.Column(db.Integer, db.ForeignKey("items.item_id"), nullable=False)
