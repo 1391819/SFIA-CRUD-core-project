@@ -26,8 +26,8 @@ p {
     font-size: 1em;
 }
 
-.mt-7 {
-    margin-top: 7em;
+.mt-5-half {
+    margin-top: 5.5em;
 }
 
 /* ------------------------------------- */
@@ -108,11 +108,7 @@ p {
     row-gap: 1em;
     column-gap: 1em;
     flex-wrap: wrap;
-    justify-content: space-around;
-}
-
-.flex-grid .item-card {
-    flex: 1;
+    justify-content: space-between;
 }
 
 .flex-grid a {
@@ -219,4 +215,21 @@ p {
     flex: 1;
     padding: 1em;
     width: 50%;
+}
+
+/* ------------------------------------- */
+/* Media queries */
+
+@media (max-width: 767px) {
+    .flex-grid {
+        justify-content: center;
+    }
+
+
+}
+
+@media (min-width: 767px) {
+    .items-list {
+        justify-content: space-between;
+    }
 }

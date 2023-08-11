@@ -13,10 +13,8 @@
 	<a href="/items" class="btn btn-shop-now">Shop now</a>
 </div>
 <h2>Our favourites</h2>
-<div class="container">
-	<div class="flex-grid mt-4">
-		{% for item in items %} {% include "item_card.html" %}{% endfor %}
-	</div>
+<div class="flex-grid mt-4">
+	{% for item in items %} {% include "item_card.html" %}{% endfor %}
 </div>
 
 {% endblock content%}
