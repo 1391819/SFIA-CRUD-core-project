@@ -1,0 +1,22 @@
+<!-- extending from base layout --->
+{% extends "base.html" %}
+
+<!-- changing title --->
+{% block title %} - Home {% endblock title %}
+
+<!-- changing content --->
+{% block content %}
+
+<div class="jumbotron mb-4">
+	<h1>Welcome to Fashionable</h1>
+	<p>Discover the latest trends in clothing</p>
+	<a href="/items" class="btn btn-shop-now">Shop now</a>
+</div>
+<h2>Our favourites</h2>
+<div class="container">
+	<div class="flex-grid mt-4">
+		{% for item in items %} {% include "item_card.html" %}{% endfor %}
+	</div>
+</div>
+
+{% endblock content%}
