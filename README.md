@@ -37,3 +37,23 @@ $PROJECT_ROOT/
 ├── .gitignore
 └── README.md
 ```
+
+## Usage
+1. Create a database using MySQL
+2. Create `.env` file in project_root
+   ```
+      DB_TYPE="..."
+      DB_USER="..."
+      DB_PASSWORD="..."
+      DB_HOST="..."
+      DB_NAME="..."
+   ```
+3. Install required dependencies
+   ```bash
+      pip install -r requirements.txt
+   ```
+4. Run `create.py` to create a mock db with products and items
+   ```bash
+      py create.py
+   ```
+5. ...
