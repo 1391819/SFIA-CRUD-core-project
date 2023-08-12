@@ -155,3 +155,10 @@ def cart_page():
     cart = session.get("cart", {})
 
     return render_template("cart_page.html", cart=cart)
+
+
+@app.route("/clear_cart", methods=["POST"])
+def clear_cart():
+    session.pop("cart", None)
+    session.modified = True
+    return redirect(url_for("cart_page"))
