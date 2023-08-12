@@ -24,7 +24,7 @@ def index():
     return render_template("index.html", items=random_items)
 
 
-@app.route("/items")
+@app.route("/items", methods=["GET", "POST"])
 def all_items():
     """Items endpoint: displaying all items
 
