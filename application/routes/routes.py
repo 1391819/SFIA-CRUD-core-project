@@ -139,6 +139,7 @@ def add_to_cart(item_id):
             "name": item.name,
             "filename": item.filename,
             "price": item.price,
+            "category": item.category.name,
             "quantity": quantity,
         }
 

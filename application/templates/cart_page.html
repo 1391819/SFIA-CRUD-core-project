@@ -6,42 +6,191 @@
 
 <!-- changing content --->
 {% block content %}
-<h2>Your Cart</h2>
-
 <!-- if the cart is not empty, we display items and relative buttons -->
 {% if cart %}
-<table>
-	<tr>
-		<th>Quantity</th>
-		<th>Image</th>
-		<th>Name</th>
-		<th>Price</th>
-	</tr>
-	{% for item_id, item_info in cart.items() %}
-	<tr>
-		<td>{{ item_info.quantity }}</td>
-		<td>{{ item_info.filename }}</td>
-		<td>{{ item_info.name }}</td>
-		<td>{{ item_info.price }}</td>
-	</tr>
-	{% endfor %}
-</table>
 
-<!-- clear cart -->
-<form action="{{ url_for('clear_cart') }}" method="POST">
-	<button class="btn btn-shop-now" type="submit">Clear cart</button>
-</form>
+<section class="container py-2 h-100">
+	<div class="row d-flex justify-content-center align-items-center h-100">
+		<div class="col-12">
+			<div
+				class="card card-registration card-registration-2"
+				style="border-radius: 15px"
+			>
+				<div class="card-body p-0">
+					<div class="row g-0">
+						<div class="col-lg-8">
+							<div class="pt-5 px-5">
+								<div
+									class="d-flex justify-content-between align-items-center mb-5"
+								>
+									<h1 class="fw-bold mb-0">Your Cart</h1>
+								</div>
+								<hr />
 
-<!-- continue shopping -->
-<a href="/items" class="btn btn-shop-now">Continue shopping</a>
+								<!-- adding our items -->
+								{% for item_id, item_info in cart.items() %}
+								<div
+									class="row mb-4 d-flex justify-content-between align-items-center"
+								>
+									<div class="col-md-2 col-lg-2 col-xl-2">
+										<img
+											src="{{ url_for('static', filename='imgs/' + item_info.filename) }}"
+											class="img-fluid rounded-3"
+											alt="Item image"
+										/>
+									</div>
+									<div class="col-md-3 col-lg-3 col-xl-3">
+										<h6 class="text-muted">
+											{{ item_info.category }}
+										</h6>
+										<h6 class="text-black mb-0">
+											{{ item_info.name }}
+										</h6>
+									</div>
+									<div
+										class="col-md-3 col-lg-3 col-xl-2 d-flex"
+									>
+										<!-- TODO: Decrease quantity functionality-->
+										<button
+											class="btn btn-link px-2"
+											onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+										>
+											<i class="fa fa-angle-left"></i>
+										</button>
 
-<!-- proceed to checkout -->
-<form action="{{ url_for('checkout') }}" method="POST">
-	<button class="btn btn-shop-now" type="submit">Proceed to Checkout</button>
-</form>
+										<input
+											id="form1"
+											min="0"
+											name="quantity"
+											value="{{ item_info.quantity }}"
+											type="number"
+											class="form-control form-control-sm"
+										/>
+
+										<!-- TODO: Increase quantity functionality -->
+										<button
+											class="btn btn-link px-2"
+											onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+										>
+											<i class="fa fa-angle-right"></i>
+										</button>
+									</div>
+									<div
+										class="col-md-3 col-lg-2 col-xl-2 offset-lg-1"
+									>
+										<h6 class="mb-0">
+											£{{ item_info.price }}
+										</h6>
+									</div>
+									<div
+										class="col-md-1 col-lg-1 col-xl-1 text-end"
+									>
+										<!-- TODO: remove item functionality -->
+										<a href="#!" class="text-muted"
+											><i class="fa fa-close"></i
+										></a>
+									</div>
+								</div>
+
+								<hr />
+								{% endfor %}
+							</div>
+						</div>
+						<div class="col-lg-4 bg-grey">
+							<div class="pb-5 px-5">
+								<div
+									class="d-flex justify-content-between mb-5"
+								>
+									<h3 class="fw-bold mb-2 mt-2 pt-1">
+										Total
+									</h3>
+									<h5>€ 137.00</h5>
+								</div>
+								<div
+									class="d-flex gap-3 justify-content-between"
+								>
+									<!-- clear cart -->
+									<form
+										action="{{ url_for('clear_cart') }}"
+										method="POST"
+									>
+										<button
+											class="btn btn-shop-now"
+											type="submit"
+										>
+											Clear cart
+										</button>
+									</form>
+
+									<!-- continue shopping -->
+									<a href="/items" class="btn btn-shop-now"
+										>Continue shopping</a
+									>
+
+									<!-- proceed to checkout -->
+									<form
+										action="{{ url_for('checkout') }}"
+										method="POST"
+									>
+										<button
+											class="btn btn-shop-now"
+											type="submit"
+										>
+											Proceed to Checkout
+										</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 
 <!-- else we tell the user that the cart is empty -->
 {% else %}
-<p>Your cart is currently empty!</p>
-<a href="/items" class="btn btn-shop-now">Shop now</a>
+
+<section class="container py-2 h-100">
+	<div class="row d-flex justify-content-center align-items-center h-100">
+		<div class="col-12">
+			<div
+				class="card card-registration card-registration-2"
+				style="border-radius: 15px"
+			>
+				<div class="card-body p-0">
+					<div class="row g-0">
+						<div class="col-lg-8">
+							<div class="pt-5 px-5">
+								<div
+									class="d-flex justify-content-between align-items-center mb-5"
+								>
+									<h1 class="fw-bold mb-0">Your Cart</h1>
+								</div>
+								<hr />
+							</div>
+						</div>
+						<div class="col-lg-4 bg-grey">
+							<div class="pb-5 px-5">
+								<div
+									class="d-flex justify-content-between mb-5"
+								>
+									<p>Your cart is currently empty!</p>
+								</div>
+								<div class="d-flex justify-content-center">
+									<!-- continue shopping -->
+									<a href="/items" class="btn btn-shop-now"
+										>Shop now</a
+									>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
 {% endif %} {% endblock content %}
