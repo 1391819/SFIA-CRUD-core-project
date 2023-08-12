@@ -7,40 +7,43 @@
 <!-- changing content --->
 {% block content %}
 
-<h2>{{ item.name }}</h2>
-<div class="item-details mt-4">
-	<div class="item-details-image">
-		<img
-			src="{{ url_for('static', filename='imgs/' + item.filename) }}"
-			alt="Product image"
-		/>
-	</div>
-	<div class="item-details-info">
-		<p>{{ item.name }}</p>
-		<p>{{ item.category.name }}</p>
-		<hr />
-		<p>£{{ item.price }}</p>
-		<p>In stock: {{ item.stock }}</p>
-
-		<!-- Add to cart functionality -->
-		<form
-			method="POST"
-			action="{{ url_for('add_to_cart', item_id=item.item_id) }}"
-		>
-			<label for="quantity">Quantity: </label>
-			<input
-				type="number"
-				name="quantity"
-				id="quantity"
-				value="1"
-				min="1"
-				max="{{ item.stock }}"
-				required
+<div class="container">
+	<h2>{{ item.name }}</h2>
+	<div class="item-details mt-4">
+		<div class="item-details-image">
+			<img
+				src="{{ url_for('static', filename='imgs/' + item.filename) }}"
+				alt="{{ item.name }} image"
 			/>
-			<br />
-			<button class="btn btn-shop-now" type="submit">Add to cart</button>
-		</form>
+		</div>
+		<div class="item-details-info">
+			<p>{{ item.name }}</p>
+			<p>{{ item.category.name }}</p>
+			<hr />
+			<p>£{{ item.price }}</p>
+			<p>In stock: {{ item.stock }}</p>
+
+			<!-- Add to cart functionality -->
+			<form
+				method="POST"
+				action="{{ url_for('add_to_cart', item_id=item.item_id) }}"
+			>
+				<label for="quantity">Quantity: </label>
+				<input
+					type="number"
+					name="quantity"
+					id="quantity"
+					value="1"
+					min="1"
+					max="{{ item.stock }}"
+					required
+				/>
+				<br />
+				<button class="btn btn-shop-now" type="submit">
+					Add to cart
+				</button>
+			</form>
+		</div>
 	</div>
 </div>
-
 {% endblock content%}

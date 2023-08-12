@@ -2,14 +2,16 @@
 {% extends "base.html" %}
 
 <!-- changing title --->
-{% block title %} - Items {% endblock title %}
+{% block title %} - Products {% endblock title %}
 
 <!-- changing content --->
 {% block content %}
 
-<h2>All items</h2>
-<div class="items-list mt-4">
-	{% for item in items %} {% include "item_card.html" %}{% endfor %}
+<div class="container">
+	<h2>All products</h2>
+	<div class="items-list mt-4">
+		{% for item in items %} {% include "item_card.html" %}{% endfor %}
+	</div>
 </div>
 
 {% endblock content%}
