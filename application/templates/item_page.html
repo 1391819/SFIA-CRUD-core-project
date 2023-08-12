@@ -21,6 +21,22 @@
 		<hr />
 		<p>£{{ item.price }}</p>
 		<p>In stock: {{ item.stock }}</p>
+
+		<!-- Add to cart functionality -->
+		<form method="POST" action="">
+			<label for="quantity">Quantity: </label>
+			<input
+				type="number"
+				name="quantity"
+				id="quantity"
+				value="1"
+				min="1"
+				max="{{ item.stock }}"
+				required
+			/>
+			<br />
+			<button type="submit">Add to cart</button>
+		</form>
 	</div>
 </div>
 
