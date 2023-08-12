@@ -23,7 +23,10 @@
 		<p>In stock: {{ item.stock }}</p>
 
 		<!-- Add to cart functionality -->
-		<form method="POST" action="">
+		<form
+			method="POST"
+			action="{{ url_for('add_to_cart', item_id=item.item_id) }}"
+		>
 			<label for="quantity">Quantity: </label>
 			<input
 				type="number"

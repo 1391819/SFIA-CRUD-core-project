@@ -1,6 +1,6 @@
 from application import app, db
 from application.models import Items, Categories
-from flask import render_template, jsonify
+from flask import render_template, jsonify, redirect, url_for, request, session
 import random
 
 
@@ -102,3 +102,56 @@ def get_all_items():
         for items in items
     ]
     return jsonify({"items": items_list})
+
+
+###################################################################
+# cart page routes
+
+
+@app.route("/add_to_cart/<int:item_id>", methods=["POST"])
+def add_to_cart(item_id):
+    # get item by id
+    # the reason why we re-retrieve the item instead of just passing
+    # all the necessary fields is
+    # 1) simplified view function
+    # 2) if item data changes WHILE the user is on the site (i.e., price)
+    #    the change wouldn't be reflected in what the user is seeing
+    item = Items.query.filter_by(item_id=item_id).first()
+
+    # retrieve selected quantity
+    quantity = int(request.form["quantity"])
+
+    # check if there's already a cart in session
+    if "cart" not in session:
+        session["cart"] = {}
+
+    # else create it
+    cart = session["cart"]
+
+    # we cast to strings to keep data serialisable
+    # if item is already in the cart, we just need to increase the quantity
+    if str(item_id) in cart:
+        cart[str(item_id)]["quantity"] += quantity
+    else:
+        # creation of "item info" dict
+        # contains data which will be useful to be displayed in the cart page
+        cart[str(item_id)] = {
+            "name": item.name,
+            "filename": item.filename,
+            "price": item.price,
+            "quantity": quantity,
+        }
+
+    # indicating that the session has been modified
+    session.modified = True
+
+    # redirecting to cart page
+    return redirect(url_for("cart_page"))
+
+
+@app.route("/cart")
+def cart_page():
+    # retrieving cart from session
+    cart = session.get("cart", {})
+
+    return render_template("cart_page.html", cart=cart)

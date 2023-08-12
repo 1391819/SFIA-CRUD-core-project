@@ -1,0 +1,27 @@
+<!-- extending from base layout --->
+{% extends "base.html" %}
+
+<!-- changing title --->
+{% block title %} - Cart {% endblock title %}
+
+<!-- changing content --->
+{% block content %}
+<h2>Your Cart</h2>
+<table>
+	<tr>
+		<th>Quantity</th>
+		<th>Image</th>
+		<th>Name</th>
+		<th>Price</th>
+	</tr>
+	{% for item_id, item_info in cart.items() %}
+	<tr>
+		<td>{{ item_info.quantity }}</td>
+		<td>{{ item_info.filename }}</td>
+		<td>{{ item_info.name }}</td>
+		<td>{{ item_info.price }}</td>
+	</tr>
+	{% endfor %}
+</table>
+
+{% endblock content %}
