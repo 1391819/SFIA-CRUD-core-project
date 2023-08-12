@@ -164,10 +164,16 @@ def cart_page():
     return render_template("cart_page.html", cart=cart, total_price=total_price)
 
 
-@app.route("/clear_cart", methods=["POST"])
-def clear_cart():
-    session.pop("cart", None)
-    session.modified = True
+@app.route("/remove_from_cart/<int:item_id>", methods=["POST"])
+def remove_from_cart(item_id):
+    # retrieving cart
+    cart = session.get("cart", {})
+
+    # extra security
+    if str(item_id) in cart:
+        cart.pop(str(item_id))
+        session.modified = True
+
     return redirect(url_for("cart_page"))
 
 

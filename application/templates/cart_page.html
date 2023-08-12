@@ -85,10 +85,16 @@
 									<div
 										class="col-md-1 col-lg-1 col-xl-1 text-end"
 									>
-										<!-- TODO: remove item functionality -->
-										<a href="#!" class="text-muted"
-											><i class="fa fa-close"></i
-										></a>
+										<!-- This could be done by including a form here - easier, we can easily add CSRF protection as well, or also just keeping the anchor tag and using JS to redirect on click
+                                        -->
+										<form
+											action="{{ url_for('remove_from_cart', item_id=item_id) }}"
+											method="POST"
+										>
+											<button type="submit" class="btn">
+												<i class="fa fa-close"></i>
+											</button>
+										</form>
 									</div>
 								</div>
 
