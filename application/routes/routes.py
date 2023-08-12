@@ -160,8 +160,6 @@ def cart_page():
     total_price = 0
 
     for _, item_info in cart.items():
-        print(item_info["price"])
-        print(item_info["quantity"])
         total_price += item_info["price"] * item_info["quantity"]
 
     # it's fine for it to be a string since we just need to display it for now
