@@ -27,6 +27,7 @@
 			<form
 				method="POST"
 				action="{{ url_for('add_to_cart', item_id=item.item_id) }}"
+				style="display: flex; flex-direction: column"
 			>
 				<label for="quantity">Quantity: </label>
 				<input
@@ -39,7 +40,7 @@
 					required
 				/>
 				<br />
-				<button class="btn btn-shop-now" type="submit">
+				<button class="btn btn-primary" type="submit">
 					Add to cart
 				</button>
 			</form>

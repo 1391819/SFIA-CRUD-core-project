@@ -121,9 +121,10 @@ p {
 
 .items-list {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
-    gap: 1.5em;
+    justify-content: space-evenly;
+    row-gap: 3em;
+    column-gap: 1em;
 }
 
 .items-list a {
@@ -250,9 +251,6 @@ p {
 }
 
 @media (min-width: 767px) {
-    .items-list {
-        justify-content: space-between;
-    }
 
     .flex-container {
         flex-direction: row;
