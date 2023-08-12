@@ -43,8 +43,8 @@
 										{{ item_info.name }}
 									</h6>
 								</div>
-								<div class="col-md-3 col-lg-3 d-flex">
-									<!-- TODO: Decrease quantity functionality-->
+								<div class="col-sm-3 col-md-3 col-lg-3 d-flex">
+									<!-- Decrease quantity functionality-->
 									<form
 										action="{{ url_for('decrease_quantity', item_id=item_id) }}"
 										method="POST"
@@ -53,7 +53,7 @@
 											type="submit"
 											class="btn btn-link"
 										>
-											<i class="fa fa-angle-left"></i>
+											<i class="bi bi-chevron-left"></i>
 										</button>
 									</form>
 
@@ -65,8 +65,9 @@
 										disabled
 									/>
 
-									<!-- TODO: Increase quantity functionality -->
-
+									<!-- Increase quantity functionality -->
+									{% if item_info.quantity < item_info.stock
+									%}
 									<form
 										action="{{ url_for('increase_quantity', item_id=item_id) }}"
 										method="POST"
@@ -75,9 +76,10 @@
 											type="submit"
 											class="btn btn-link"
 										>
-											<i class="fa fa-angle-right"></i>
+											<i class="bi bi-chevron-right"></i>
 										</button>
 									</form>
+									{% endif %}
 								</div>
 								<div
 									class="col-md-3 col-lg-2 col-xl-2 offset-lg-1"
@@ -99,7 +101,7 @@
 											type="submit"
 											class="btn btn-link"
 										>
-											<i class="fa fa-close"></i>
+											<i class="bi bi-x-lg"></i>
 										</button>
 									</form>
 								</div>
