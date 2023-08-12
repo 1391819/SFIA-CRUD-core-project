@@ -228,6 +228,19 @@ p {
 }
 
 /* ------------------------------------- */
+/* Cart page */
+
+.cart-right-side {
+    background-color: #8294c4;
+}
+
+
+.cart-right-side h3, 
+.cart-right-side h5 {
+    color: #fff;
+}
+
+/* ------------------------------------- */
 /* Media queries */
 
 @media (max-width: 767px) {
