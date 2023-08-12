@@ -27,12 +27,28 @@ with app.app_context():
         filename="jeans_1.jpg",
     )
 
+    jeans_item_2 = Items(
+        name="Jeans Item 2",
+        stock=10,
+        category=jeans_category,
+        price=9.99,
+        filename="jeans_2.jpg",
+    )
+
     skirt_item = Items(
         name="Skirt Item 1",
         stock=5,
         category=skirts_category,
         price=4.99,
         filename="skirt_1.jpg",
+    )
+
+    skirt_item_2 = Items(
+        name="Skirt Item 2",
+        stock=5,
+        category=skirts_category,
+        price=4.99,
+        filename="skirt_2.jpg",
     )
 
     tshirt_item = Items(
@@ -43,6 +59,14 @@ with app.app_context():
         filename="tshirt_1.jpg",
     )
 
+    tshirt_item_2 = Items(
+        name="T-shirt Item 2",
+        stock=10,
+        category=tshirts_category,
+        price=14.99,
+        filename="tshirt_2.jpg",
+    )
+
     dress_item = Items(
         name="Dress Item 1",
         stock=2,
@@ -51,7 +75,15 @@ with app.app_context():
         filename="dress_1.jpg",
     )
 
-    sweater_item_1 = Items(
+    dress_item_2 = Items(
+        name="Dress Item 2",
+        stock=2,
+        category=dresses_category,
+        price=29.99,
+        filename="dress_2.jpg",
+    )
+
+    sweater_item = Items(
         name="Sweater Item 1",
         stock=5,
         category=sweaters_category,
@@ -59,10 +91,25 @@ with app.app_context():
         filename="sweater_1.jpg",
     )
 
+    sweater_item_2 = Items(
+        name="Sweater Item 2",
+        stock=5,
+        category=sweaters_category,
+        price=19.99,
+        filename="sweater_2.jpg",
+    )
+
     db.session.add(jeans_item)
     db.session.add(skirt_item)
     db.session.add(tshirt_item)
     db.session.add(dress_item)
-    db.session.add(sweater_item_1)
+    db.session.add(sweater_item)
+
+    # added more items
+    db.session.add(jeans_item_2)
+    db.session.add(skirt_item_2)
+    db.session.add(tshirt_item_2)
+    db.session.add(dress_item_2)
+    db.session.add(sweater_item_2)
 
     db.session.commit()
