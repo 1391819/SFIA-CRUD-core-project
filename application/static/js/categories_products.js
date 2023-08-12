@@ -24,6 +24,21 @@ function loadItems(categoryId) {
 		});
 }
 
+// fetch and display all items (on categories page load pretty much)
+function loadAllItems() {
+	fetch(`/get_all_items`)
+		.then((response) => response.json())
+		.then((data) => {
+			// clear previous items
+			itemContainer.innerHTML = '';
+
+			data.items.forEach((item) => {
+				const itemElement = createItemElement(item);
+				itemContainer.appendChild(itemElement);
+			});
+		});
+}
+
 // create an item element
 function createItemElement(item) {
 	// this is similar to the item_card.html template content
@@ -53,6 +68,12 @@ categoryItems.forEach((item) => {
 		event.preventDefault();
 		// get selected category_id
 		const categoryId = item.dataset.categoryId;
-		loadItems(categoryId);
+		if (categoryId === '-1') {
+			loadAllItems();
+		} else {
+			loadItems(categoryId);
+		}
 	});
 });
+
+document.addEventListener('DOMContentLoaded', loadAllItems);
