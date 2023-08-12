@@ -1,6 +1,6 @@
 from application import app, db
 from application.models import Items, Categories
-from flask import render_template, jsonify
+from flask import render_template, jsonify, redirect, url_for, request, session
 import random
 
 
@@ -102,3 +102,123 @@ def get_all_items():
         for items in items
     ]
     return jsonify({"items": items_list})
+
+
+###################################################################
+# cart page routes
+
+
+@app.route("/add_to_cart/<int:item_id>", methods=["POST"])
+def add_to_cart(item_id):
+    # get item by id
+    # the reason why we re-retrieve the item instead of just passing
+    # all the necessary fields is
+    # 1) simplified view function
+    # 2) if item data changes WHILE the user is on the site (i.e., price)
+    #    the change wouldn't be reflected in what the user is seeing
+    item = Items.query.filter_by(item_id=item_id).first()
+
+    # retrieve selected quantity
+    quantity = int(request.form["quantity"])
+
+    # check if there's already a cart in session
+    if "cart" not in session:
+        session["cart"] = {}
+
+    # else create it
+    cart = session["cart"]
+
+    # we cast to strings to keep data serialisable
+    # if item is already in the cart, we just need to increase the quantity
+    if str(item_id) in cart:
+        cart[str(item_id)]["quantity"] += quantity
+    else:
+        # creation of "item info" dict
+        # contains data which will be useful to be displayed in the cart page
+        cart[str(item_id)] = {
+            "name": item.name,
+            "filename": item.filename,
+            "price": item.price,
+            "category": item.category.name,
+            "quantity": quantity,
+            "stock": item.stock,
+        }
+
+    # indicating that the session has been modified
+    session.modified = True
+
+    # redirecting to cart page
+    return redirect(url_for("cart_page"))
+
+
+@app.route("/cart")
+def cart_page():
+    # retrieving cart from session
+    cart = session.get("cart", {})
+
+    # calculating total price
+    total_price = 0
+
+    for _, item_info in cart.items():
+        print(item_info["price"])
+        print(item_info["quantity"])
+        total_price += item_info["price"] * item_info["quantity"]
+
+    # it's fine for it to be a string since we just need to display it for now
+    total_price = "%.2f" % total_price
+
+    return render_template("cart_page.html", cart=cart, total_price=total_price)
+
+
+@app.route("/remove_from_cart/<int:item_id>", methods=["POST"])
+def remove_from_cart(item_id):
+    # retrieving cart
+    cart = session.get("cart", {})
+
+    # extra security
+    if str(item_id) in cart:
+        cart.pop(str(item_id))
+        session.modified = True
+
+    return redirect(url_for("cart_page"))
+
+
+@app.route("/decrease_quantity/<int:item_id>", methods=["POST"])
+def decrease_quantity(item_id):
+    # retrieving cart
+    cart = session.get("cart", {})
+
+    # extra security
+    if str(item_id) in cart:
+        cart[str(item_id)]["quantity"] -= 1
+
+        if cart[str(item_id)]["quantity"] == 0:
+            cart.pop(str(item_id))
+
+        session.modified = True
+
+    return redirect(url_for("cart_page"))
+
+
+@app.route("/increase_quantity/<int:item_id>", methods=["POST"])
+def increase_quantity(item_id):
+    # retrieving cart
+    cart = session.get("cart", {})
+
+    # extra security
+    if str(item_id) in cart:
+        if cart[str(item_id)]["quantity"] < cart[str(item_id)]["stock"]:
+            # increasing item quantity
+            cart[str(item_id)]["quantity"] += 1
+            session.modified = True
+
+    return redirect(url_for("cart_page"))
+
+
+###################################################################
+# checkout
+
+
+@app.route("/checkout", methods=["POST"])
+def checkout():
+    return f"Checkout page"

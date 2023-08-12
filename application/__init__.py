@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
 
 # creating flask instance
 app = Flask(__name__)
@@ -22,6 +23,14 @@ DB_NAME = os.getenv("DB_NAME")
 app.config["SQLALCHEMY_DATABASE_URI"] = (
     DB_TYPE + DB_USER + DB_PASSWORD + DB_HOST + DB_NAME
 )
+
+# form security
+SECRET_KEY = os.getenv("SECRET_KEY")
+app.config["SECRET_KEY"] = SECRET_KEY
+
+# setting session expiry time for security reasons
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=10)
+
 
 # this is creating a simulation of the database as an object in our application
 db = SQLAlchemy(app)

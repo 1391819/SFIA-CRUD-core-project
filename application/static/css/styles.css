@@ -101,6 +101,7 @@ p {
 
 .btn-shop-now:hover {
     background-color: rgb(92, 109, 156);
+    color: #fff;
 }
 
 .flex-grid {
