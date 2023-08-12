@@ -27,13 +27,21 @@
 	{% endfor %}
 </table>
 
+<!-- clear cart -->
 <form action="{{ url_for('clear_cart') }}" method="POST">
-	<button type="submit">Clear cart</button>
+	<button class="btn btn-shop-now" type="submit">Clear cart</button>
 </form>
+
+<!-- continue shopping -->
+<a href="/items" class="btn btn-shop-now">Continue shopping</a>
+
+<!-- proceed to checkout -->
+<form action="{{ url_for('checkout') }}" method="POST">
+	<button class="btn btn-shop-now" type="submit">Proceed to Checkout</button>
+</form>
+
 <!-- else we tell the user that the cart is empty -->
 {% else %}
 <p>Your cart is currently empty!</p>
-<form action="/items" method="POST">
-	<button type="submit">Shop now</button>
-</form>
+<a href="/items" class="btn btn-shop-now">Shop now</a>
 {% endif %} {% endblock content %}

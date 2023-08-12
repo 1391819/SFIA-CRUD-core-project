@@ -24,7 +24,7 @@ def index():
     return render_template("index.html", items=random_items)
 
 
-@app.route("/items", methods=["GET", "POST"])
+@app.route("/items")
 def all_items():
     """Items endpoint: displaying all items
 
@@ -162,3 +162,12 @@ def clear_cart():
     session.pop("cart", None)
     session.modified = True
     return redirect(url_for("cart_page"))
+
+
+###################################################################
+# checkout
+
+
+@app.route("/checkout", methods=["POST"])
+def checkout():
+    return f"Checkout page"
