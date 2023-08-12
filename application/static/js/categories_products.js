@@ -1,8 +1,11 @@
+'use strict';
+
 // Script to clean displayed items based on selected category
 // This could be done solely in Flask, but that would result in so many page reloads
 
 // selectors
 const categoryItems = document.querySelectorAll('.category-item');
+const productsHeadingElement = document.querySelector('.products-heading');
 const itemContainer = document.querySelector('.items-list');
 
 // functionality
@@ -66,13 +69,21 @@ categoryItems.forEach((item) => {
 	item.addEventListener('click', (event) => {
 		// preventing default anchor behaviour
 		event.preventDefault();
-		// get selected category_id
+
+		// get selected category name
+		const categoryName = item.dataset.categoryName;
+
+		// get selected category id
 		const categoryId = item.dataset.categoryId;
+
 		if (categoryId === '-1') {
 			loadAllItems();
 		} else {
 			loadItems(categoryId);
 		}
+
+		// changing products heading based on selected category
+		productsHeadingElement.textContent = categoryName;
 	});
 });
 
