@@ -142,6 +142,7 @@ p {
 .item-card hr {
     margin-bottom: .5em;
     margin-top: .5em;
+    color: #fff;
 }
 
 .item-image {
@@ -218,18 +219,28 @@ p {
 }
 
 /* ------------------------------------- */
+/* Categories page */
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4em;
+}
+
+/* ------------------------------------- */
 /* Media queries */
 
 @media (max-width: 767px) {
     .flex-grid {
         justify-content: center;
     }
-
-
 }
 
 @media (min-width: 767px) {
     .items-list {
         justify-content: space-between;
+    }
+
+    .flex-container {
+        flex-direction: row;
     }
 }

@@ -1,6 +1,6 @@
 from application import app, db
 from application.models import Items, Categories
-from flask import render_template
+from flask import render_template, jsonify
 import random
 
 
@@ -51,3 +51,31 @@ def item_page(item_id: int):
     item = Items.query.filter_by(item_id=item_id).first()
     # rendering appropriate template
     return render_template("item_page.html", item=item)
+
+
+@app.route("/categories")
+def categories_page():
+    categories = Categories.query.all()
+    return render_template("categories.html", categories=categories)
+
+
+@app.route("/get_items_by_category/<int:category_id>")
+def get_items_by_category(category_id):
+    # retrive items that are part of the selected category
+    items = Items.query.filter_by(category_id=category_id).all()
+    # create list with all items
+    items_list = [
+        {
+            # further fields can be added if they need to be displayed
+            "item_id": items.item_id,
+            "name": items.name,
+            # "category": items.category.name,
+            "price": items.price,
+            "filename": items.filename,
+        }
+        for items in items
+    ]
+    # return JSON data so we can use it in categories_products.js
+    # this is done in such a way as to not need a page reload
+    # every time the user clicks on a different category
+    return jsonify({"items": items_list})
