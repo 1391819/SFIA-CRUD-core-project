@@ -8,10 +8,10 @@ with app.app_context():
 
     # adding sample categories and items
     jeans_category = Categories(name="Jeans")
-    skirts_category = Categories(name="Skirts")
-    tshirts_category = Categories(name="T-shirts")
-    dresses_category = Categories(name="Dresses")
-    sweaters_category = Categories(name="Sweaters")
+    skirts_category = Categories(name="Skirt")
+    tshirts_category = Categories(name="T-shirt")
+    dresses_category = Categories(name="Dress")
+    sweaters_category = Categories(name="Sweater")
 
     db.session.add(jeans_category)
     db.session.add(skirts_category)
