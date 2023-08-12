@@ -155,7 +155,13 @@ def cart_page():
     # retrieving cart from session
     cart = session.get("cart", {})
 
-    return render_template("cart_page.html", cart=cart)
+    # calculating total price
+    total_price = 0
+
+    for _, item_info in cart.items():
+        total_price += item_info["price"] * item_info["quantity"]
+
+    return render_template("cart_page.html", cart=cart, total_price=total_price)
 
 
 @app.route("/clear_cart", methods=["POST"])
