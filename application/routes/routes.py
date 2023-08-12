@@ -141,6 +141,7 @@ def add_to_cart(item_id):
             "price": item.price,
             "category": item.category.name,
             "quantity": quantity,
+            "stock": item.stock,
         }
 
     # indicating that the session has been modified
@@ -173,6 +174,38 @@ def remove_from_cart(item_id):
     if str(item_id) in cart:
         cart.pop(str(item_id))
         session.modified = True
+
+    return redirect(url_for("cart_page"))
+
+
+@app.route("/decrease_quantity/<int:item_id>", methods=["POST"])
+def decrease_quantity(item_id):
+    # retrieving cart
+    cart = session.get("cart", {})
+
+    # extra security
+    if str(item_id) in cart:
+        cart[str(item_id)]["quantity"] -= 1
+
+        if cart[str(item_id)]["quantity"] == 0:
+            cart.pop(str(item_id))
+
+        session.modified = True
+
+    return redirect(url_for("cart_page"))
+
+
+@app.route("/increase_quantity/<int:item_id>", methods=["POST"])
+def increase_quantity(item_id):
+    # retrieving cart
+    cart = session.get("cart", {})
+
+    # extra security
+    if str(item_id) in cart:
+        if cart[str(item_id)]["quantity"] < cart[str(item_id)]["stock"]:
+            # increasing item quantity
+            cart[str(item_id)]["quantity"] += 1
+            session.modified = True
 
     return redirect(url_for("cart_page"))
 
