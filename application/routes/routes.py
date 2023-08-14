@@ -1,5 +1,5 @@
 from application import app, db
-from application.models import Items, Categories, ShippingForm, Customers
+from application.models import Items, Categories, ShippingForm, Customers, PaymentForm
 from flask import render_template, jsonify, redirect, url_for, request, session
 import random
 
@@ -230,14 +230,22 @@ def checkout():
     # retrieving cart
     cart = session.get("cart", {})
 
+    # retrieving customer data (if he already entered it)
+    customer_data = session.get("customer_data", {})
+
+    # if the cart is empty, redirect to the cart page
     if len(cart) < 1:
         return redirect(url_for("cart_page"))
+    # if the customer already entered his details
+    # we should re-populate the fields in the template
+    # elif customer_data:
+    # return redirect(url_for("payment"))
     else:
         total_price = calculate_total_cart_price(cart)
 
         form = ShippingForm()
 
-        if form.validate_on_submit():
+        if form.validate_on_submit() and request.method == "POST":
             # get data from the shipping form
             # we use session variables to store data temporarily across different views
             session["customer_data"] = {
@@ -276,4 +284,39 @@ def checkout():
 
 @app.route("/payment", methods=["GET", "POST"])
 def payment():
-    return render_template("payment.html")
+    # retrieving cart
+    cart = session.get("cart", {})
+
+    # retrieving customer data
+    customer_data = session.get("customer_data", {})
+
+    # if there isn't any customer data, we redirect to checkout
+    # this is not really needed but just in case someone tries to
+    # directly go to the /payment endpoint, skipping the checkout
+    if customer_data is None:
+        return redirect(url_for("checkout"))
+    else:
+        form = PaymentForm()
+
+        if form.validate_on_submit() and request.method == "POST":
+            # do stuff on submit
+
+            cardholder_name = form.cardholder_name.data
+            card_number = form.card_number.data
+            expiry_date = form.expiry_date.data
+            security_code = form.security_code.data
+
+            # if this data were to be stored somewhere (i.e, customers table)
+            # we'd definitely need to use some sort of encryption (i.e., bcrypt)
+            # however, at this point it isn't stored anywhere so using encryption is redundant
+
+            return redirect(url_for("thank_you"))
+
+        return render_template("payment.html", cart=cart, payment_form=form)
+
+
+@app.route("/thank_you")
+def thank_you():
+    # show order details
+
+    return f"Your order is being processed"
