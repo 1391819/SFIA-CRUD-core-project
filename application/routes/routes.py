@@ -1,5 +1,5 @@
 from application import app, db
-from application.models import Items, Categories, ShippingForm
+from application.models import Items, Categories, ShippingForm, Customers
 from flask import render_template, jsonify, redirect, url_for, request, session
 import random
 
@@ -237,26 +237,43 @@ def checkout():
 
         form = ShippingForm()
 
-        if request.method == ["POST"] and form.validate_on_submit():
+        if form.validate_on_submit():
             # get data from the shipping form
-            customer_name = form.name.data
-            email = form.email.data
-            address = form.address.data
-            post_code = form.post_code.data
-            country = form.post_code.data
+            # we use session variables to store data temporarily across different views
+            session["customer_data"] = {
+                "name": form.name.data,
+                "email": form.email.data,
+                "address": form.address.data,
+                "post_code": form.post_code.data,
+                "country": form.country.data,
+            }
 
             # check if the customer is already in the system
+            existing_customer = Customers.query.filter_by(
+                email=session["customer_data"]["email"]
+            ).first()
 
-            # else, add to the system
-
-            print(customer_name)
-            print(email)
-            print(address)
-            print(post_code)
-            print(country)
+            # here, we should give the option to login if the user hasn't done so already
+            if existing_customer:
+                # redirect(url_for("login"))
+                pass
+            else:
+                # customer is not in the system, add them
+                new_customer = Customers(
+                    name=session["customer_data"]["name"],
+                    email=session["customer_data"]["email"],
+                )
+                db.session.add(new_customer)
+                db.session.commit()
 
             # redirect to payment page
+            return redirect(url_for("payment"))
 
         return render_template(
             "checkout.html", cart=cart, total_price=total_price, shipping_form=form
         )
+
+
+@app.route("/payment", methods=["GET", "POST"])
+def payment():
+    return render_template("payment.html")

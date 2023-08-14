@@ -249,7 +249,6 @@ p {
 
 .errors p {
     margin: 0;
-    vertical-align: super;
     font-size: .7em;
 }
 

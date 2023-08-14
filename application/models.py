@@ -1,7 +1,7 @@
 from application import db
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, EmailField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, ValidationError
 
 
 class Items(db.Model):
@@ -46,10 +46,20 @@ class OrdersItems(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
 
 
+# custom validators
+# custom validator for the email, it needs to be unique
+def unique_email(form, field):
+    email = field.data
+    existing_customer = Customers.query.filter_by(email=email).first()
+    if existing_customer:
+        raise ValidationError("This email is already associated with an account")
+
+
 # forms
+# shipping information form
 class ShippingForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
-    email = EmailField("Email", validators=[DataRequired()])
+    email = EmailField("Email", validators=[DataRequired(), unique_email])
     address = StringField("Address", validators=[DataRequired()])
     post_code = StringField("Post code", validators=[DataRequired()])
     country = StringField("Country", validators=[DataRequired()])
