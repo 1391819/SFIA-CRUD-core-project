@@ -1,14 +1,15 @@
+<!-- This template has been used to create single pages for each item (details) -->
 <!-- extending from base layout --->
 {% extends "base.html" %}
 
-<!-- changing title --->
+<!-- changing title according to selected item --->
 {% block title %} - {{ item.name }} {% endblock title %}
 
 <!-- changing content --->
 {% block content %}
 
-<div class="container">
-	<h2>{{ item.name }}</h2>
+<div class="container h-100">
+	<h2 class="fw-bold">{{ item.name }}</h2>
 	<div class="item-details mt-4">
 		<div class="item-details-image">
 			<img
@@ -16,31 +17,34 @@
 				alt="{{ item.name }} image"
 			/>
 		</div>
-		<div class="item-details-info">
-			<p>{{ item.name }}</p>
+		<div class="item-details-info mt-4">
+			<h3>Category</h3>
 			<p>{{ item.category.name }}</p>
-			<hr />
+			<h3>Price</h3>
 			<p>£{{ item.price }}</p>
-			<p>In stock: {{ item.stock }}</p>
+			<h3>Left in stock</h3>
+			<p>{{ item.stock }}</p>
+			<h3 class="fw-bold mt-4">Buy now</h3>
 
 			<!-- Add to cart functionality -->
 			<form
 				method="POST"
 				action="{{ url_for('add_to_cart', item_id=item.item_id) }}"
-				style="display: flex; flex-direction: column"
+				class="buy-now-form"
 			>
 				<label for="quantity">Quantity: </label>
 				<input
 					type="number"
 					name="quantity"
 					id="quantity"
+					class="form-control mt-2"
 					value="1"
 					min="1"
 					max="{{ item.stock }}"
 					required
 				/>
 				<br />
-				<button class="btn btn-primary" type="submit">
+				<button class="btn btn-shop-now" type="submit">
 					Add to cart
 				</button>
 			</form>

@@ -65,6 +65,7 @@ function createItemElement(item) {
 }
 
 // event listeners
+// loading items on category link click
 categoryItems.forEach((item) => {
 	item.addEventListener('click', (event) => {
 		// preventing default anchor behaviour
@@ -87,4 +88,5 @@ categoryItems.forEach((item) => {
 	});
 });
 
+// loading ALL items on page load
 document.addEventListener('DOMContentLoaded', loadAllItems);

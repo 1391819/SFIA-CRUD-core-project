@@ -7,16 +7,16 @@
 <!-- changing content --->
 {% block content %}
 
-<div class="container">
-	<div class="jumbotron mb-4">
+<div class="container h-100">
+	<div class="jumbotron">
 		<h1>Welcome to Fashionable</h1>
-		<p>Discover the latest trends in clothing</p>
+		<h2>Discover the latest trends in clothing</h2>
 		<a href="/items" class="btn btn-shop-now">Shop now</a>
 	</div>
-	<div>
+	<div class="container mt-4">
 		<h2>Our favourites</h2>
-		<div class="flex-grid mt-4">
-			{% for item in items %} {% include "item_card.html" %}{% endfor %}
+		<div class="items-list mt-4">
+			{% for item in items %} {% include "item_card.html" %} {% endfor %}
 		</div>
 	</div>
 </div>

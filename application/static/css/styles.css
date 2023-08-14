@@ -1,5 +1,5 @@
 /* ------------------------------------- */
-/* Main styling */
+/* Basic styling setup */
 body {
     background-color: rgb(219, 223, 234);
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
@@ -26,6 +26,7 @@ p {
     font-size: 1em;
 }
 
+/* Custom margin top - this has been done since the default classes provided by Bootstrap weren't enough */
 .mt-5-half {
     margin-top: 5.5em;
 }
@@ -36,16 +37,21 @@ p {
 .custom-navbar {
     font-family: 'Raleway', sans-serif;
     background-color: rgb(130, 148, 196);
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 10px #00000033;
 }
 
- .navbar-brand {
-    color: rgb(255, 255, 255);
+.navbar-brand {
     font-weight: bold;
+    color: #ffffff;
 }
 
 .navbar-nav .nav-link {
-    color: rgb(255, 255, 255);
+    color: #ffffff;
+}
+
+.nav-link:hover {
+    color: rgb(219, 223, 234);
+    transform: translateY(-1px);
 }
 
 /* ------------------------------------- */
@@ -55,11 +61,12 @@ p {
     position: relative;
     background-image: url("../imgs/banner.jpg");
     background-size: cover;
-    color: rgb(255, 255, 255);
-    padding: 100px 0;
+    background-repeat: no-repeat;
+    color: #ffffff;
+    padding: 5em 0;
     text-align: center;
     z-index: 1;
-    border-radius: 20px;
+    border-radius: 15px;
 }
 
 .jumbotron::before {
@@ -71,7 +78,7 @@ p {
     height: 100%;
     background-color: rgba(130, 148, 196, 0.3);
     z-index: -1;
-    border-radius: 20px;
+    border-radius: 15px;
 }
 
 .jumbotron h1 {
@@ -82,49 +89,37 @@ p {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
 }
 
-.jumbotron p {
+.jumbotron h2 {
     font-size: 1.5em;
     margin-bottom: 40px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    color: #fff;
 }
 
 .btn-shop-now {
     background-color: rgb(130, 148, 196);
-    color: #fff;
+    color: #fff!important;
     font-size: 1.25rem;
-    padding: 10px 30px;
-    border-radius: 25px;
+    padding: .3em .8em;
+    border-radius: 15px;
     text-transform: uppercase;
-    letter-spacing: 1px;
     transition: background-color 0.3s ease;
 }
 
 .btn-shop-now:hover {
     background-color: rgb(92, 109, 156);
-    color: #fff;
-}
-
-.flex-grid {
-    display: flex;
-    row-gap: 1em;
-    column-gap: 1em;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.flex-grid a {
-    text-decoration: none;
 }
 
 /* ------------------------------------- */
-/* Item listing page */
+/* Home page, products page, categories page */
+/* The following styling has been re-used a lot in many different parts of the site */
 
 .items-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    row-gap: 3em;
-    column-gap: 1em;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2em 1.5em;
+    justify-items: center;
+    
 }
 
 .items-list a {
@@ -133,12 +128,12 @@ p {
 
 .item-card {
     display: flex;
-    width: 300px;
-    height: 200px;
-    border-radius: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 300px;
     transition: transform 0.2s;
-    background-color: #8294C4;
+    background-color: #8294C4; 
 }
 
 .item-card hr {
@@ -148,84 +143,86 @@ p {
 }
 
 .item-image {
-    display: flex;
-    align-items: center;
-    width: 50%;
+    flex: 1;
 }
 
 .item-image img {
-    width: 100%;
+    border-radius: 15px;
+    max-width: 100%;
     height: auto;
-    display: block;
-    border-radius: 10px;
 }
 
 .item-info {
-    flex: 1;
     padding: 1em;
-    width: 50%;
+    color: #fff;
+    flex: 1;
 }
 
 .item-name {
-    color: white;
     font-weight: bold;
     margin-bottom: 5px;
-    font-size: 1.1em;
 }
 
 .item-tags {
     color: #FFEAD2;
-    display: inline-block;
-    text-decoration: underline;
-    text-decoration-color: #FFEAD2;
-    text-decoration-thickness: .1em;
+    font-size: .8em;
     margin-bottom: 5px;
 }
 
 .item-price {
-    color: white;
     font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .item-card:hover {
     transform: translateY(-2px);
 }
 
-
 /* ------------------------------------- */
 /* Item details page styling */
 
 .item-details {
     display: flex;
+    column-gap: 4em;
 }
 
 .item-details-image {
+    flex: 1;
     display: flex;
     justify-content: center;
-    width: 50%;
 }
 
 .item-details-image img {
-    width: 80%;
+    border-radius: 15px;
+    max-width: 80%;
     height: auto;
-    display: block;
-    border-radius: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s;
 }
 
 .item-details-info {
     flex: 1;
-    padding: 1em;
-    width: 50%;
 }
+
+.buy-now-form {
+    display: flex;
+    flex-direction: column;
+}
+
 
 /* ------------------------------------- */
 /* Categories page */
 .flex-container {
     display: flex;
-    flex-direction: column;
     gap: 4em;
+}
+
+.categories {
+    flex: .1;
+}
+
+.products {
+    flex: 1;
 }
 
 /* ------------------------------------- */
@@ -254,22 +251,44 @@ p {
 
 /* ------------------------------------- */
 /* Media queries */
+/* 
+   This section could be further refactored by simply learning Bootstrap a lot more.
+   However, for this project, time is extremely limited.
+
+   Another thing is: 
+       - Usually, styling should be done for mobile first. 
+       - Media queries would then help with the tablet > design
+       - Again, due to the limited time, this entire styling sheet might be a mess.
+
+
+   */
 
 @media (max-width: 767px) {
     .flex-grid {
         justify-content: center;
     }
-}
 
-@media (min-width: 767px) {
+    .item-card {
+        flex-direction: column;
+    }
 
-    .flex-container {
-        flex-direction: row;
+    .item-image, 
+    .item-info {
+        width: 100%;
+    }
+
+    .item-details {
+        flex-direction: column;
     }
 }
+
 
 @media (max-width: 992px) {
     .cart-right-side {
         width: 100%;
+    }
+
+    .flex-container {
+        flex-direction: column;
     }
 }

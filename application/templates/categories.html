@@ -2,11 +2,11 @@
 {% extends "base.html" %}
 
 <!-- changing title --->
-{% block title %} {% endblock title %}
+{% block title %} - Categories {% endblock title %}
 
 <!-- changing content --->
 {% block content %}
-<div class="container">
+<div class="container h-100">
 	<div class="flex-container">
 		<div class="categories">
 			<h2>Categories</h2>
@@ -29,6 +29,8 @@
 		</div>
 	</div>
 </div>
-{% endblock content %} {% block scripts %}
+{% endblock content %}
+<!-- Scripts: Loading products based on picked category -->
+{% block scripts %}
 <script src="{{ url_for('static', filename='js/categories_products.js') }}"></script>
 {% endblock scripts %}
