@@ -200,22 +200,23 @@ def decrease_quantity(item_id):
         # we decrease the quantity only if it amounts to more than 1
         if cart[str(item_id)]["quantity"] > 1:
             cart[str(item_id)]["quantity"] -= 1
+            session.modified = True
 
-        session.modified = True
+        # get the updated quantity
+        updated_quantity = cart[str(item_id)]["quantity"]
 
-    # get the updated quantity
-    updated_quantity = cart[str(item_id)]["quantity"]
+        # calculating updated cart total price
+        updated_total_price = calculate_total_cart_price(cart)
 
-    # calculating updated cart total price
-    updated_total_price = calculate_total_cart_price(cart)
+        return jsonify(
+            {
+                "message": "Item quantity decreased successfully",
+                "updated_quantity": updated_quantity,
+                "updated_total_price": updated_total_price,
+            }
+        )
 
-    return jsonify(
-        {
-            "message": "Item quantity decreased successfully",
-            "updated_quantity": updated_quantity,
-            "updated_total_price": updated_total_price,
-        }
-    )
+    return jsonify({"message": "Item not found in the cart"}), 400
 
 
 @app.route("/increase_quantity/<int:item_id>", methods=["POST"])
@@ -225,24 +226,26 @@ def increase_quantity(item_id):
 
     # extra security
     if str(item_id) in cart:
+        # we first check whether the specified quantity is less than the item stock level
         if cart[str(item_id)]["quantity"] < cart[str(item_id)]["stock"]:
             # increasing item quantity
             cart[str(item_id)]["quantity"] += 1
             session.modified = True
 
-    # get the updated quantity
-    updated_quantity = cart[str(item_id)]["quantity"]
+        # get the updated quantity
+        updated_quantity = cart[str(item_id)]["quantity"]
 
-    # calculating updated cart total price
-    updated_total_price = calculate_total_cart_price(cart)
+        # calculating updated cart total price
+        updated_total_price = calculate_total_cart_price(cart)
 
-    return jsonify(
-        {
-            "message": "Item quantity increased successfully",
-            "updated_quantity": updated_quantity,
-            "updated_total_price": updated_total_price,
-        }
-    )
+        return jsonify(
+            {
+                "message": "Item quantity increased successfully",
+                "updated_quantity": updated_quantity,
+                "updated_total_price": updated_total_price,
+            }
+        )
+    return jsonify({"message": "Item not found in the cart"}), 400
 
 
 ###################################################################
@@ -315,6 +318,8 @@ def payment():
 
     # retrieving customer data
     customer_data = session.get("customer_data", {})
+
+    total_price = calculate_total_cart_price(cart)
 
     # if there isn't any customer data, we redirect to checkout
     # this is not really needed but just in case someone tries to
@@ -390,14 +395,13 @@ def payment():
                 # redirect to not successful payment page
                 pass
 
-        return render_template("payment.html", cart=cart, payment_form=form)
+        return render_template(
+            "payment.html", cart=cart, payment_form=form, total_price=total_price
+        )
 
 
 @app.route("/process_order")
 def process_order():
-    # check if the page is being reloaded
-    is_reloaded = session.get("is_reloaded", False)
-
     # retrieving cart
     cart = session.get("cart", {})
 
@@ -412,17 +416,10 @@ def process_order():
     else:
         total_price = calculate_total_cart_price(cart)
 
-        # clear session variables if the page has been reloaded
-        # and redirect to home page
-        if is_reloaded:
-            session.pop("cart", None)
-            session.pop("customer_data", None)
-            session.pop("is_reloaded", None)
-
-            return redirect(url_for("index"))
-
-        # set flag for next page load
-        session["is_reloaded"] = True
+        # clear session variables
+        session.pop("cart", None)
+        session.pop("customer_data", None)
+        session.pop("is_reloaded", None)
 
         return render_template(
             "process_order.html",
@@ -439,4 +436,12 @@ def process_payment(cardholder_name, card_number, expiry_date, security_code):
     # the payment processor will return, based on its API, a success or declined response
 
     # for the sake of this project the result will always be successful
+
+    # to get the total price that the customer should be charged, we have two options
+    # 1) query the database tables and figure out the price based on a combination of order info and items info
+    # 2) directly compute it here as total_price using the calculate_total_price (most likely choice)
+
+    # -> Note: I'm not quite sure whether storing the total price for each order is a good idea
+    #          due to the 3 normalisation "rules" of databases design
+
     return "success"
