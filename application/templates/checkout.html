@@ -21,69 +21,110 @@
 							<hr />
 
 							<!-- Shipping form here -->
-							<div
-								class="d-flex justify-content-between align-items-center mb-4"
+
+							<form
+								action=""
+								method="POST"
+								class="d-flex flex-column mb-4 gap-4"
 							>
-								Form here
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-6 cart-right-side">
-						<div class="pt-5 px-5">
-							<div class="d-flex justify-content-between mb-5">
-								<h3 class="fw-bold mb-2 mt-2 pt-1">
-									Cart summary
-								</h3>
-							</div>
-							{% for item_id, item_info in cart.items() %}
-							<div
-								class="d-flex justify-content-between align-items-center mb-4"
-							>
-								<div class="col-md-2 col-lg-2 col-xl-2">
-									<img
-										src="{{ url_for('static', filename='imgs/' + item_info.filename) }}"
-										class="img-fluid rounded-3"
-										alt="Item image"
-									/>
-								</div>
-								<div class="col-md-3 col-lg-3 col-xl-3">
-									<h6 class="text-muted">
-										{{ item_info.category }}
-									</h6>
-									<h6 class="text-black mb-0">
-										{{ item_info.name }}
-									</h6>
-								</div>
-								<div class="d-flex col-sm-3 col-md-3 col-lg-3">
-									<input
-										name="quantity"
-										value="{{ item_info.quantity }}"
-										type="number"
-										class="form-control form-control-sm"
-										disabled
-									/>
-								</div>
-								<div
-									class="col-md-3 col-lg-2 col-xl-2 offset-lg-1"
-								>
-									<h6
-										class="mb-0"
-										style="color: #fff; text-align: end"
+								{{ shipping_form.hidden_tag() }}
+								<!-- Name field -->
+								<div>
+									<label for="{{ shipping_form.name.id }}"
+										>{{ shipping_form.name.label.text
+										}}</label
 									>
-										£ {{ item_info.price }}
-									</h6>
+									{{ shipping_form.name(class="form-control")
+									}} {% if shipping_form.name.errors %}
+									<div class="errors">
+										{% for error in
+										shipping_form.name.errors %}
+										<p>{{ error }}</p>
+										{% endfor %}
+									</div>
+									{% endif %}
 								</div>
-							</div>
-							<hr />
-							{% endfor %}
-							<div class="d-flex justify-content-between mb-5">
-								<h3 class="fw-bold mb-2 mt-2 pt-1">Total</h3>
-								<h5 class="mb-2 mt-2 pt-1">
-									£ {{ total_price }}
-								</h5>
-							</div>
+								<!-- Email field -->
+								<div>
+									<label for="{{ shipping_form.email.id }}">
+										{{ shipping_form.email.label.text
+										}}</label
+									>
+									{{ shipping_form.email(class="form-control")
+									}} {% if shipping_form.email.errors %}
+									<div class="errors">
+										{% for error in
+										shipping_form.email.errors %}
+										<p>{{ error }}</p>
+										{% endfor %}
+									</div>
+									{% endif %}
+								</div>
+								<!-- Address field -->
+								<div>
+									<label for="{{ shipping_form.address.id }}">
+										{{ shipping_form.address.label.text
+										}}</label
+									>
+									{{
+									shipping_form.address(class="form-control")
+									}}
+									<!-- Display errors -->
+									{% if shipping_form.address.errors %}
+									<div class="errors">
+										<!-- Going through each error -->
+										{% for error in
+										shipping_form.address.errors %}
+										<p>{{ error }}</p>
+										{% endfor %}
+									</div>
+									{% endif %}
+								</div>
+								<!-- Postcode field -->
+								<div>
+									<label
+										for="{{ shipping_form.post_code.id }}"
+									>
+										{{ shipping_form.post_code.label.text
+										}}</label
+									>
+									{{
+									shipping_form.post_code(class="form-control")
+									}} {% if shipping_form.post_code.errors %}
+									<div class="errors">
+										{% for error in
+										shipping_form.post_code.errors %}
+										<p>{{ error }}</p>
+										{% endfor %}
+									</div>
+									{% endif %}
+								</div>
+								<!-- Country field -->
+								<div>
+									<label for="{{ shipping_form.country.id }}">
+										{{ shipping_form.country.label.text
+										}}</label
+									>
+									{{
+									shipping_form.country(class="form-control")
+									}} {% if shipping_form.country.errors %}
+									<div class="errors">
+										{% for error in
+										shipping_form.country.errors %}
+										<p>{{ error }}</p>
+										{% endfor %}
+									</div>
+									{% endif %}
+								</div>
+								<!-- Submit field -->
+								<div>
+									{{ shipping_form.submit(class="btn
+									btn-primary") }}
+								</div>
+							</form>
 						</div>
 					</div>
+					{% include "cart_summary.html" %}
 				</div>
 			</div>
 		</div>

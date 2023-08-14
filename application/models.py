@@ -1,4 +1,7 @@
 from application import db
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, EmailField
+from wtforms.validators import DataRequired
 
 
 class Items(db.Model):
@@ -41,3 +44,13 @@ class OrdersItems(db.Model):
     order_id = db.Column(db.Integer, db.ForeignKey("orders.order_id"), nullable=False)
     item_id = db.Column(db.Integer, db.ForeignKey("items.item_id"), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
+
+
+# forms
+class ShippingForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    email = EmailField("Email", validators=[DataRequired()])
+    address = StringField("Address", validators=[DataRequired()])
+    post_code = StringField("Post code", validators=[DataRequired()])
+    country = StringField("Country", validators=[DataRequired()])
+    submit = SubmitField("Proceed to payment")

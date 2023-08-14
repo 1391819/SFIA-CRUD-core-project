@@ -1,5 +1,5 @@
 from application import app, db
-from application.models import Items, Categories
+from application.models import Items, Categories, ShippingForm
 from flask import render_template, jsonify, redirect, url_for, request, session
 import random
 
@@ -235,4 +235,28 @@ def checkout():
     else:
         total_price = calculate_total_cart_price(cart)
 
-        return render_template("checkout.html", cart=cart, total_price=total_price)
+        form = ShippingForm()
+
+        if request.method == ["POST"] and form.validate_on_submit():
+            # get data from the shipping form
+            customer_name = form.name.data
+            email = form.email.data
+            address = form.address.data
+            post_code = form.post_code.data
+            country = form.post_code.data
+
+            # check if the customer is already in the system
+
+            # else, add to the system
+
+            print(customer_name)
+            print(email)
+            print(address)
+            print(post_code)
+            print(country)
+
+            # redirect to payment page
+
+        return render_template(
+            "checkout.html", cart=cart, total_price=total_price, shipping_form=form
+        )
