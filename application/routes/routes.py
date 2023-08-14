@@ -156,6 +156,12 @@ def cart_page():
     # retrieving cart from session
     cart = session.get("cart", {})
 
+    total_price = calculate_total_cart_price(cart)
+
+    return render_template("cart_page.html", cart=cart, total_price=total_price)
+
+
+def calculate_total_cart_price(cart):
     # calculating total price
     total_price = 0
 
@@ -165,7 +171,7 @@ def cart_page():
     # it's fine for it to be a string since we just need to display it for now
     total_price = "%.2f" % total_price
 
-    return render_template("cart_page.html", cart=cart, total_price=total_price)
+    return total_price
 
 
 @app.route("/remove_from_cart/<int:item_id>", methods=["POST"])
@@ -217,6 +223,16 @@ def increase_quantity(item_id):
 # checkout
 
 
-@app.route("/checkout", methods=["POST"])
+@app.route("/checkout", methods=["GET", "POST"])
 def checkout():
-    return f"Checkout page"
+    # user can go to checkout page only if there's at least one item in the cart
+
+    # retrieving cart
+    cart = session.get("cart", {})
+
+    if len(cart) < 1:
+        return redirect(url_for("cart_page"))
+    else:
+        total_price = calculate_total_cart_price(cart)
+
+        return render_template("checkout.html", cart=cart, total_price=total_price)
