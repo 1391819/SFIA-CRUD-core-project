@@ -38,7 +38,7 @@ class Orders(db.Model):
     customer_id = db.Column(
         db.Integer, db.ForeignKey("customers.customer_id"), nullable=False
     )
-    order_date = db.Column(db.DateTime, nullable=False)
+    order_date = db.Column(db.DateTime, nullable=False, default=datetime.now)
     shipping_address = db.Column(db.String(255), nullable=False)
     orders_items = db.relationship("OrdersItems", backref="orders")
 

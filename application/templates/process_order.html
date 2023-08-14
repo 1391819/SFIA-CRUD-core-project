@@ -1,0 +1,53 @@
+<!-- extending from base layout --->
+{% extends "base.html" %}
+
+<!-- changing title --->
+{% block title %} - Checkout {% endblock title %}
+
+<!-- changing content --->
+{% block content %}
+<div class="container h-100">
+	<div class="row d-flex justify-content-center align-items-center h-100">
+		<div class="col-12">
+			<div class="card" style="border-radius: 15px; border: none">
+				<div class="row g-0">
+					<div class="col-lg-6">
+						<div class="pt-5 px-5">
+							<div
+								class="d-flex justify-content-between align-items-center mb-5"
+							>
+								<h2>{{ message }}</h2>
+							</div>
+							<hr />
+
+							<!-- Can add customer data recap here -->
+							<div>
+								<div
+									class="d-flex justify-content-between align-items-center mb-5"
+								>
+									<h3>Shipping information</h3>
+								</div>
+								<hr />
+
+								<!-- Can add customer data recap here -->
+								<div
+									class="d-flex flex-column justify-content-between align-items-start mb-5"
+								>
+									<p>Name: {{ customer_data.name }}</p>
+									<p>Email: {{ customer_data.email }}</p>
+									<p>Address: {{ customer_data.address }}</p>
+									<p>
+										Post code: {{ customer_data.post_code }}
+									</p>
+									<p>Country: {{ customer_data.country }}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% include "cart_summary.html" %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
