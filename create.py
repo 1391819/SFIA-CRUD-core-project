@@ -29,7 +29,7 @@ with app.app_context():
 
     jeans_item_2 = Items(
         name="Dark Force",
-        stock=10,
+        stock=999,
         category=jeans_category,
         price=9.99,
         filename="jeans_2.jpg",
@@ -37,7 +37,7 @@ with app.app_context():
 
     skirt_item = Items(
         name="Comfy White",
-        stock=5,
+        stock=999,
         category=skirts_category,
         price=4.99,
         filename="skirt_1.jpg",
@@ -53,7 +53,7 @@ with app.app_context():
 
     tshirt_item = Items(
         name="Pricess Top",
-        stock=10,
+        stock=999,
         category=tshirts_category,
         price=14.99,
         filename="tshirt_1.jpg",
@@ -61,7 +61,7 @@ with app.app_context():
 
     tshirt_item_2 = Items(
         name="Flower Garden",
-        stock=10,
+        stock=999,
         category=tshirts_category,
         price=14.99,
         filename="tshirt_2.jpg",
@@ -69,7 +69,7 @@ with app.app_context():
 
     dress_item = Items(
         name="Black Dragon",
-        stock=2,
+        stock=999,
         category=dresses_category,
         price=29.99,
         filename="dress_1.jpg",
@@ -77,7 +77,7 @@ with app.app_context():
 
     dress_item_2 = Items(
         name="White Princess",
-        stock=2,
+        stock=780,
         category=dresses_category,
         price=29.99,
         filename="dress_2.jpg",
@@ -85,7 +85,7 @@ with app.app_context():
 
     sweater_item = Items(
         name="Comfy Light Blue",
-        stock=5,
+        stock=999,
         category=sweaters_category,
         price=19.99,
         filename="sweater_1.jpg",
@@ -93,7 +93,7 @@ with app.app_context():
 
     sweater_item_2 = Items(
         name="Green Peace",
-        stock=5,
+        stock=999,
         category=sweaters_category,
         price=19.99,
         filename="sweater_2.jpg",
