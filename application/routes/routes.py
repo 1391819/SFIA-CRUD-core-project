@@ -71,7 +71,7 @@ def get_products_by_category(category_id):
         }
         for items in items
     ]
-    # return JSON data so we can use it in categories_products.js
+    # return JSON data so we can use it in categoriesProducts.js
     # this is done in such a way as to not need a page reload
     # every time the user clicks on a different category
     return jsonify({"items": items_list})
@@ -94,7 +94,7 @@ def get_all_items():
         }
         for items in items
     ]
-    # return JSON data so we can use it in categories_products.js
+    # return JSON data so we can use it in categoriesProducts.js
     return jsonify({"items": items_list})
 
 
