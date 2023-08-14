@@ -20,7 +20,7 @@ with app.app_context():
     db.session.add(sweaters_category)
 
     jeans_item = Items(
-        name="Jeans Item 1",
+        name="Blue Force",
         stock=10,
         category=jeans_category,
         price=9.99,
@@ -28,7 +28,7 @@ with app.app_context():
     )
 
     jeans_item_2 = Items(
-        name="Jeans Item 2",
+        name="Dark Force",
         stock=10,
         category=jeans_category,
         price=9.99,
@@ -36,7 +36,7 @@ with app.app_context():
     )
 
     skirt_item = Items(
-        name="Skirt Item 1",
+        name="Comfy White",
         stock=5,
         category=skirts_category,
         price=4.99,
@@ -44,7 +44,7 @@ with app.app_context():
     )
 
     skirt_item_2 = Items(
-        name="Skirt Item 2",
+        name="Formal Blue",
         stock=5,
         category=skirts_category,
         price=4.99,
@@ -52,7 +52,7 @@ with app.app_context():
     )
 
     tshirt_item = Items(
-        name="T-shirt Item 1",
+        name="Pricess Top",
         stock=10,
         category=tshirts_category,
         price=14.99,
@@ -60,7 +60,7 @@ with app.app_context():
     )
 
     tshirt_item_2 = Items(
-        name="T-shirt Item 2",
+        name="Flower Garden",
         stock=10,
         category=tshirts_category,
         price=14.99,
@@ -68,7 +68,7 @@ with app.app_context():
     )
 
     dress_item = Items(
-        name="Dress Item 1",
+        name="Black Dragon",
         stock=2,
         category=dresses_category,
         price=29.99,
@@ -76,7 +76,7 @@ with app.app_context():
     )
 
     dress_item_2 = Items(
-        name="Dress Item 2",
+        name="White Princess",
         stock=2,
         category=dresses_category,
         price=29.99,
@@ -84,7 +84,7 @@ with app.app_context():
     )
 
     sweater_item = Items(
-        name="Sweater Item 1",
+        name="Comfy Light Blue",
         stock=5,
         category=sweaters_category,
         price=19.99,
@@ -92,7 +92,7 @@ with app.app_context():
     )
 
     sweater_item_2 = Items(
-        name="Sweater Item 2",
+        name="Green Peace",
         stock=5,
         category=sweaters_category,
         price=19.99,
