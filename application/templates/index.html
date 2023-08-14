@@ -11,14 +11,15 @@
 	<div class="jumbotron">
 		<h1>Welcome to Fashionable</h1>
 		<h2>Discover the latest trends in clothing</h2>
-		<a href="/items" class="btn btn-shop-now">Shop now</a>
+		<a href="/products" class="btn btn-shop-now">Shop now</a>
 	</div>
 	<div class="container mt-4">
 		<h2>Our favourites</h2>
 		<div class="items-list mt-4">
-			{% for item in items %} {% include "item_card.html" %} {% endfor %}
+			{% for item in items %} {% include "product_card.html" %} {% endfor
+			%}
 		</div>
 	</div>
 </div>
 
-{% endblock content%}
+{% endblock content %}

@@ -12,7 +12,7 @@ const itemContainer = document.querySelector('.items-list');
 
 // fetch and display items based on category
 function loadItems(categoryId) {
-	fetch(`/get_items_by_category/${categoryId}`)
+	fetch(`/get_products_by_category/${categoryId}`)
 		.then((response) => response.json())
 		.then((data) => {
 			// clear previous content
@@ -44,11 +44,11 @@ function loadAllItems() {
 
 // create an item element
 function createItemElement(item) {
-	// this is similar to the item_card.html template content
+	// this is similar to the product_card.html template content
 	// but we don't have a way of using Jinja2 templates client side
 	// without running into some serious security issues
 	const itemElement = document.createElement('a');
-	itemElement.setAttribute('href', `/items/${item.item_id}`);
+	itemElement.setAttribute('href', `/products/${item.item_id}`);
 	itemElement.innerHTML = `
         <div class="item-card">
             <div class="item-image">
