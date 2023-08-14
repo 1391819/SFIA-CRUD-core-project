@@ -1,5 +1,13 @@
 from application import app, db
-from application.models import Items, Categories, ShippingForm, Customers
+from application.models import (
+    Items,
+    Categories,
+    ShippingForm,
+    Customers,
+    PaymentForm,
+    Orders,
+    OrdersItems,
+)
 from flask import render_template, jsonify, redirect, url_for, request, session
 import random
 
@@ -230,14 +238,22 @@ def checkout():
     # retrieving cart
     cart = session.get("cart", {})
 
+    # retrieving customer data (if he already entered it)
+    customer_data = session.get("customer_data", {})
+
+    # if the cart is empty, redirect to the cart page
     if len(cart) < 1:
         return redirect(url_for("cart_page"))
+    # if the customer already entered his details
+    # we should re-populate the fields in the template
+    # elif customer_data:
+    # return redirect(url_for("payment"))
     else:
         total_price = calculate_total_cart_price(cart)
 
         form = ShippingForm()
 
-        if form.validate_on_submit():
+        if form.validate_on_submit() and request.method == "POST":
             # get data from the shipping form
             # we use session variables to store data temporarily across different views
             session["customer_data"] = {
@@ -276,4 +292,130 @@ def checkout():
 
 @app.route("/payment", methods=["GET", "POST"])
 def payment():
-    return render_template("payment.html")
+    # retrieving cart
+    cart = session.get("cart", {})
+
+    # retrieving customer data
+    customer_data = session.get("customer_data", {})
+
+    # if there isn't any customer data, we redirect to checkout
+    # this is not really needed but just in case someone tries to
+    # directly go to the /payment endpoint, skipping the checkout
+    if not customer_data:
+        return redirect(url_for("checkout"))
+    else:
+        form = PaymentForm()
+
+        if form.validate_on_submit() and request.method == "POST":
+            # do stuff on submit
+
+            cardholder_name = form.cardholder_name.data
+            card_number = form.card_number.data
+            expiry_date = form.expiry_date.data
+            security_code = form.security_code.data
+
+            # if this data were to be stored somewhere (i.e, customers table)
+            # we'd definitely need to use some sort of encryption (i.e., bcrypt)
+            # however, at this point it isn't stored anywhere so using encryption is redundant
+
+            # here, do external payment processor result
+            payment_result = process_payment(
+                cardholder_name, card_number, expiry_date, security_code
+            )
+
+            if payment_result == "success":
+                # payment was successful
+
+                # get the customer
+                customer = Customers.query.filter_by(
+                    email=customer_data["email"]
+                ).first()
+
+                # build entire shipping address
+                # this has to be done like this for now due to the poor
+                # modularity for the customer's shipping address
+                shipping_address = f"{customer_data['address']}, {customer_data['post_code']}, {customer_data['country']}"
+
+                # track the order
+                order = Orders(customer=customer, shipping_address=shipping_address)
+
+                # adding to db session - transient for now
+                db.session.add(order)
+
+                # we also track all the items in an order
+                # get all the ids
+                for item_id, item_info in cart.items():
+                    # retrieve items straight from the db
+                    # even though we have all the data available here
+                    # it's better to get the most udpated data
+                    item = Items.query.filter_by(item_id=item_id).first()
+
+                    orders_items = OrdersItems(
+                        orders=order, items=item, quantity=item_info["quantity"]
+                    )
+
+                    # adding to db session - transient for now
+                    db.session.add(orders_items)
+
+                    # we also need to update the Items table (i.e., update stock)
+                    # for each item in the cart
+                    # update stock left
+                    item.stock = item.stock - item_info["quantity"]
+
+                # commit everything to db
+                db.session.commit()
+
+                # redirect to processing order page
+                return redirect(url_for("process_order"))
+            else:
+                # payment wasn't successful
+                # redirect to not successful payment page
+                pass
+
+        return render_template("payment.html", cart=cart, payment_form=form)
+
+
+@app.route("/process_order")
+def process_order():
+    # check if the page is being reloaded
+    is_reloaded = session.get("is_reloaded", False)
+
+    # retrieving cart
+    cart = session.get("cart", {})
+
+    # retrieving customer data
+    customer_data = session.get("customer_data", {})
+
+    if not customer_data:
+        return redirect(url_for("checkout"))
+    else:
+        total_price = calculate_total_cart_price(cart)
+
+        # clear session variables if the page has been reloaded
+        # and redirect to home page
+        if is_reloaded:
+            session.pop("cart", None)
+            session.pop("customer_data", None)
+            session.pop("is_reloaded", None)
+
+            return redirect(url_for("index"))
+
+        # set flag for next page load
+        session["is_reloaded"] = False
+
+        return render_template(
+            "process_order.html",
+            cart=cart,
+            customer_data=customer_data,
+            total_price=total_price,
+            message="Your order is being processed",
+        )
+
+
+def process_payment(cardholder_name, card_number, expiry_date, security_code):
+    # here, we'd have to build an API request
+    # be careful of all the external payment processor security guidelines (i.e., how to send data, etc)
+    # the payment processor will return, based on its API, a success or declined response
+
+    # for the sake of this project the result will always be successful
+    return "success"
