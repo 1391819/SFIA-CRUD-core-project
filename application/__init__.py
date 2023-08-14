@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 app.config["SECRET_KEY"] = SECRET_KEY
 
 # setting session expiry time for security reasons
-app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=10)
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=20)
 
 
 # this is creating a simulation of the database as an object in our application
