@@ -178,7 +178,16 @@ def remove_from_cart(item_id):
         cart.pop(str(item_id))
         session.modified = True
 
-    return redirect(url_for("cart_page"))
+        return (
+            jsonify(
+                {
+                    "message": "Item removed from the cart successfully",
+                    "cart_length": len(cart),
+                }
+            ),
+            200,
+        )
+    return jsonify({"message": "Item not found in the cart"}), 400
 
 
 @app.route("/decrease_quantity/<int:item_id>", methods=["POST"])
@@ -188,14 +197,25 @@ def decrease_quantity(item_id):
 
     # extra security
     if str(item_id) in cart:
-        cart[str(item_id)]["quantity"] -= 1
-
-        if cart[str(item_id)]["quantity"] == 0:
-            cart.pop(str(item_id))
+        # we decrease the quantity only if it amounts to more than 1
+        if cart[str(item_id)]["quantity"] > 1:
+            cart[str(item_id)]["quantity"] -= 1
 
         session.modified = True
 
-    return redirect(url_for("cart_page"))
+    # get the updated quantity
+    updated_quantity = cart[str(item_id)]["quantity"]
+
+    # calculating updated cart total price
+    updated_total_price = calculate_total_cart_price(cart)
+
+    return jsonify(
+        {
+            "message": "Item quantity decreased successfully",
+            "updated_quantity": updated_quantity,
+            "updated_total_price": updated_total_price,
+        }
+    )
 
 
 @app.route("/increase_quantity/<int:item_id>", methods=["POST"])
@@ -210,7 +230,19 @@ def increase_quantity(item_id):
             cart[str(item_id)]["quantity"] += 1
             session.modified = True
 
-    return redirect(url_for("cart_page"))
+    # get the updated quantity
+    updated_quantity = cart[str(item_id)]["quantity"]
+
+    # calculating updated cart total price
+    updated_total_price = calculate_total_cart_price(cart)
+
+    return jsonify(
+        {
+            "message": "Item quantity increased successfully",
+            "updated_quantity": updated_quantity,
+            "updated_total_price": updated_total_price,
+        }
+    )
 
 
 ###################################################################
@@ -372,6 +404,9 @@ def process_order():
     # retrieving customer data
     customer_data = session.get("customer_data", {})
 
+    print(cart)
+    print(customer_data)
+
     if not customer_data:
         return redirect(url_for("checkout"))
     else:
@@ -387,7 +422,7 @@ def process_order():
             return redirect(url_for("index"))
 
         # set flag for next page load
-        session["is_reloaded"] = False
+        session["is_reloaded"] = True
 
         return render_template(
             "process_order.html",

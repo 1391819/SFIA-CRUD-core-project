@@ -26,6 +26,7 @@
 							<!-- adding our items -->
 							{% for item_id, item_info in cart.items() %}
 							<div
+								id="cart-item-{{ item_id }}"
 								class="row mb-4 d-flex justify-content-between align-items-center"
 							>
 								<div class="col-md-2 col-lg-2 col-xl-2">
@@ -45,41 +46,30 @@
 								</div>
 								<div class="col-sm-3 col-md-3 col-lg-3 d-flex">
 									<!-- Decrease quantity functionality-->
-									<form
-										action="{{ url_for('decrease_quantity', item_id=item_id) }}"
-										method="POST"
+									<button
+										type="submit"
+										class="btn btn-link btn-decrease"
+										data-item-id="{{ item_id }}"
 									>
-										<button
-											type="submit"
-											class="btn btn-link"
-										>
-											<i class="bi bi-chevron-left"></i>
-										</button>
-									</form>
+										<i class="bi bi-chevron-left"></i>
+									</button>
 
 									<input
 										name="quantity"
 										value="{{ item_info.quantity }}"
+										id="quantity-{{ item_id }}"
 										type="number"
 										class="form-control form-control-sm"
 										disabled
 									/>
 
-									<!-- Increase quantity functionality -->
-									{% if item_info.quantity < item_info.stock
-									%}
-									<form
-										action="{{ url_for('increase_quantity', item_id=item_id) }}"
-										method="POST"
+									<button
+										type="submit"
+										class="btn btn-link btn-increase"
+										data-item-id="{{ item_id }}"
 									>
-										<button
-											type="submit"
-											class="btn btn-link"
-										>
-											<i class="bi bi-chevron-right"></i>
-										</button>
-									</form>
-									{% endif %}
+										<i class="bi bi-chevron-right"></i>
+									</button>
 								</div>
 								<div
 									class="col-md-3 col-lg-2 col-xl-2 offset-lg-1"
@@ -93,21 +83,20 @@
 								>
 									<!-- This could be done by including a form here - easier, we can easily add CSRF protection as well, or also just keeping the anchor tag and using JS to redirect on click
                                         -->
-									<form
-										action="{{ url_for('remove_from_cart', item_id=item_id) }}"
-										method="POST"
-									>
+									<div>
 										<button
 											type="submit"
-											class="btn btn-link"
+											class="btn btn-link btn-remove"
+											data-item-id="{{ item_id }}"
 										>
 											<i class="bi bi-x-lg"></i>
 										</button>
-									</form>
+									</div>
 								</div>
+
+								<hr />
 							</div>
 
-							<hr />
 							{% endfor %}
 						</div>
 					</div>
@@ -115,7 +104,7 @@
 						<div class="pt-5 px-5">
 							<div class="d-flex justify-content-between mb-5">
 								<h3 class="fw-bold mb-2 mt-2 pt-1">Total</h3>
-								<h5 class="mb-2 mt-2 pt-1">
+								<h5 class="mb-2 mt-2 pt-1 total-price">
 									£ {{ total_price }}
 								</h5>
 							</div>
@@ -189,3 +178,8 @@
 </section>
 
 {% endif %} {% endblock content %}
+<!-- Scripts: Axios + Updating cart -->
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{{ url_for('static', filename='js/updateCart.js') }}"></script>
+{% endblock scripts %}
