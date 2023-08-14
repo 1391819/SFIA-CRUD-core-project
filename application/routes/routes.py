@@ -58,15 +58,14 @@ def categories():
 
 @app.route("/get_products_by_category/<int:category_id>")
 def get_products_by_category(category_id):
-    # retrive items that are part of the selected category
+    # retrieve items that are part of the selected category
     items = Items.query.filter_by(category_id=category_id).all()
     # create list with all items
     items_list = [
         {
-            # further fields can be added if they need to be displayed
+            # further fields can be added if they need to be displayed (e.g., product description)
             "item_id": items.item_id,
             "name": items.name,
-            # "category": items.category.name,
             "price": items.price,
             "filename": items.filename,
         }
@@ -87,20 +86,30 @@ def get_all_items():
     # create list with all items
     items_list = [
         {
-            # further fields can be added if they need to be displayed
+            # further fields can be added if they need to be displayed (e.g., product description)
             "item_id": items.item_id,
             "name": items.name,
-            # "category": items.category.name,
             "price": items.price,
             "filename": items.filename,
         }
         for items in items
     ]
+    # return JSON data so we can use it in categories_products.js
     return jsonify({"items": items_list})
 
 
 ###################################################################
 # cart page routes
+
+
+@app.route("/cart")
+def cart_page():
+    # retrieving cart from session
+    cart = session.get("cart", {})
+
+    total_price = calculate_total_cart_price(cart)
+
+    return render_template("cart_page.html", cart=cart, total_price=total_price)
 
 
 @app.route("/add_to_cart/<int:item_id>", methods=["POST"])
@@ -144,16 +153,6 @@ def add_to_cart(item_id):
 
     # redirecting to cart page
     return redirect(url_for("cart_page"))
-
-
-@app.route("/cart")
-def cart_page():
-    # retrieving cart from session
-    cart = session.get("cart", {})
-
-    total_price = calculate_total_cart_price(cart)
-
-    return render_template("cart_page.html", cart=cart, total_price=total_price)
 
 
 def calculate_total_cart_price(cart):
