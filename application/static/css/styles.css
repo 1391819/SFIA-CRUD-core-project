@@ -242,6 +242,17 @@ p {
 }
 
 /* ------------------------------------- */
+/* Checkout page */
+.errors {
+    color: red;
+}
+
+.errors p {
+    margin: 0;
+    font-size: .7em;
+}
+
+/* ------------------------------------- */
 /* Media queries */
 
 @media (max-width: 767px) {

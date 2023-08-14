@@ -1,5 +1,5 @@
 from application import app, db
-from application.models import Items, Categories
+from application.models import Items, Categories, ShippingForm, Customers
 from flask import render_template, jsonify, redirect, url_for, request, session
 import random
 
@@ -156,6 +156,12 @@ def cart_page():
     # retrieving cart from session
     cart = session.get("cart", {})
 
+    total_price = calculate_total_cart_price(cart)
+
+    return render_template("cart_page.html", cart=cart, total_price=total_price)
+
+
+def calculate_total_cart_price(cart):
     # calculating total price
     total_price = 0
 
@@ -165,7 +171,7 @@ def cart_page():
     # it's fine for it to be a string since we just need to display it for now
     total_price = "%.2f" % total_price
 
-    return render_template("cart_page.html", cart=cart, total_price=total_price)
+    return total_price
 
 
 @app.route("/remove_from_cart/<int:item_id>", methods=["POST"])
@@ -217,6 +223,57 @@ def increase_quantity(item_id):
 # checkout
 
 
-@app.route("/checkout", methods=["POST"])
+@app.route("/checkout", methods=["GET", "POST"])
 def checkout():
-    return f"Checkout page"
+    # user can go to checkout page only if there's at least one item in the cart
+
+    # retrieving cart
+    cart = session.get("cart", {})
+
+    if len(cart) < 1:
+        return redirect(url_for("cart_page"))
+    else:
+        total_price = calculate_total_cart_price(cart)
+
+        form = ShippingForm()
+
+        if form.validate_on_submit():
+            # get data from the shipping form
+            # we use session variables to store data temporarily across different views
+            session["customer_data"] = {
+                "name": form.name.data,
+                "email": form.email.data,
+                "address": form.address.data,
+                "post_code": form.post_code.data,
+                "country": form.country.data,
+            }
+
+            # check if the customer is already in the system
+            existing_customer = Customers.query.filter_by(
+                email=session["customer_data"]["email"]
+            ).first()
+
+            # here, we should give the option to login if the user hasn't done so already
+            if existing_customer:
+                # redirect(url_for("login"))
+                pass
+            else:
+                # customer is not in the system, add them
+                new_customer = Customers(
+                    name=session["customer_data"]["name"],
+                    email=session["customer_data"]["email"],
+                )
+                db.session.add(new_customer)
+                db.session.commit()
+
+            # redirect to payment page
+            return redirect(url_for("payment"))
+
+        return render_template(
+            "checkout.html", cart=cart, total_price=total_price, shipping_form=form
+        )
+
+
+@app.route("/payment", methods=["GET", "POST"])
+def payment():
+    return render_template("payment.html")
