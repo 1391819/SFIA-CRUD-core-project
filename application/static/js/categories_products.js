@@ -12,9 +12,11 @@ const itemContainer = document.querySelector('.items-list');
 
 // fetch and display items based on category
 function loadItems(categoryId) {
-	fetch(`/get_products_by_category/${categoryId}`)
-		.then((response) => response.json())
-		.then((data) => {
+	axios
+		.get(`/get_products_by_category/${categoryId}`)
+		.then((response) => {
+			const data = response.data;
+
 			// clear previous content
 			itemContainer.innerHTML = '';
 
@@ -24,14 +26,19 @@ function loadItems(categoryId) {
 				const itemElement = createItemElement(item);
 				itemContainer.appendChild(itemElement);
 			});
+		})
+		.catch((error) => {
+			console.error('Error loading items: ', error);
 		});
 }
 
 // fetch and display all items (on categories page load pretty much)
 function loadAllItems() {
-	fetch(`/get_all_items`)
-		.then((response) => response.json())
-		.then((data) => {
+	axios
+		.get(`/get_all_items`)
+		.then((response) => {
+			const data = response.data;
+
 			// clear previous items
 			itemContainer.innerHTML = '';
 
@@ -39,6 +46,9 @@ function loadAllItems() {
 				const itemElement = createItemElement(item);
 				itemContainer.appendChild(itemElement);
 			});
+		})
+		.catch((error) => {
+			console.error('Error loading items: ', error);
 		});
 }
 
