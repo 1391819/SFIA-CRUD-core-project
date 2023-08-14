@@ -52,7 +52,7 @@ function createItemElement(item) {
 	itemElement.innerHTML = `
         <div class="item-card">
             <div class="item-image">
-                <img src="/static/imgs/${item.filename}" alt="${item.name}" />
+                <img src="/static/imgs/products/${item.filename}" alt="${item.name}" />
             </div>
             <div class="item-info">
                 <p class="item-name">${item.name}</p>
