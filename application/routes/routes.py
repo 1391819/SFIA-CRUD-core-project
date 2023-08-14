@@ -265,10 +265,6 @@ def checkout():
     # if the cart is empty, redirect to the cart page
     if len(cart) < 1:
         return redirect(url_for("cart_page"))
-    # if the customer already entered his details
-    # we should re-populate the fields in the template
-    # elif customer_data:
-    # return redirect(url_for("payment"))
     else:
         total_price = calculate_total_cart_price(cart)
 
@@ -319,14 +315,14 @@ def payment():
     # retrieving customer data
     customer_data = session.get("customer_data", {})
 
-    total_price = calculate_total_cart_price(cart)
-
     # if there isn't any customer data, we redirect to checkout
     # this is not really needed but just in case someone tries to
     # directly go to the /payment endpoint, skipping the checkout
     if not customer_data:
         return redirect(url_for("checkout"))
     else:
+        total_price = calculate_total_cart_price(cart)
+
         form = PaymentForm()
 
         if form.validate_on_submit() and request.method == "POST":
@@ -339,16 +335,15 @@ def payment():
 
             # if this data were to be stored somewhere (i.e, customers table)
             # we'd definitely need to use some sort of encryption (i.e., bcrypt)
-            # however, at this point it isn't stored anywhere so using encryption is redundant
+            # however, at this point it isn't stored anywhere so using encryption is redundant (?)
 
-            # here, do external payment processor result
+            # here, get external payment processor result
             payment_result = process_payment(
                 cardholder_name, card_number, expiry_date, security_code
             )
 
+            # for this mock processor, the payment will pretty much always be successful
             if payment_result == "success":
-                # payment was successful
-
                 # get the customer
                 customer = Customers.query.filter_by(
                     email=customer_data["email"]
@@ -357,6 +352,9 @@ def payment():
                 # build entire shipping address
                 # this has to be done like this for now due to the poor
                 # modularity for the customer's shipping address
+                # TODO: Refactor shipping information (starting from the db schema)
+                # TODO: Add countries drop down
+                # TODO: Add Find your address functionality based on post code
                 shipping_address = f"{customer_data['address']}, {customer_data['post_code']}, {customer_data['country']}"
 
                 # track the order
@@ -370,9 +368,10 @@ def payment():
                 for item_id, item_info in cart.items():
                     # retrieve items straight from the db
                     # even though we have all the data available here
-                    # it's better to get the most udpated data
+                    # it's better to get the most udpated data in case of sudden price changes (according to a future admin account)
                     item = Items.query.filter_by(item_id=item_id).first()
 
+                    # create relationship between orders and items
                     orders_items = OrdersItems(
                         orders=order, items=item, quantity=item_info["quantity"]
                     )
@@ -382,17 +381,16 @@ def payment():
 
                     # we also need to update the Items table (i.e., update stock)
                     # for each item in the cart
-                    # update stock left
                     item.stock = item.stock - item_info["quantity"]
 
                 # commit everything to db
                 db.session.commit()
 
-                # redirect to processing order page
+                # redirect to order processed (payment result and order recap - customer details and items ordered)
                 return redirect(url_for("process_order"))
             else:
                 # payment wasn't successful
-                # redirect to not successful payment page
+                # TODO: Once a proper payment processor has been set up, complete this section
                 pass
 
         return render_template(
@@ -408,14 +406,17 @@ def process_order():
     # retrieving customer data
     customer_data = session.get("customer_data", {})
 
-    print(cart)
-    print(customer_data)
-
+    # if customer tried to directly access this page
+    # there are definitely better ways to do this but again, time constraint
+    # TODO: Refactor
     if not customer_data:
         return redirect(url_for("checkout"))
+    # TODO: Add redirect in case payment details have not been entered
     else:
         total_price = calculate_total_cart_price(cart)
 
+        # this section is of utmost importance for obvious security reasons
+        # the amount of session attacks is quite large
         # clear session variables
         session.pop("cart", None)
         session.pop("customer_data", None)
@@ -426,7 +427,6 @@ def process_order():
             cart=cart,
             customer_data=customer_data,
             total_price=total_price,
-            message="Your order is being processed",
         )
 
 
