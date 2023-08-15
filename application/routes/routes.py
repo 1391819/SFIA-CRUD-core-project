@@ -420,7 +420,6 @@ def process_order():
         # clear session variables
         session.pop("cart", None)
         session.pop("customer_data", None)
-        session.pop("is_reloaded", None)
 
         return render_template(
             "process_order.html",

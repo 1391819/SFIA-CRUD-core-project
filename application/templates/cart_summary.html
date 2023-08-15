@@ -1,41 +1,35 @@
-<div class="col-lg-6 cart-right-side">
-	<div class="pt-5 px-5">
-		<div class="d-flex justify-content-between mb-5">
-			<h3 class="fw-bold mb-2">Cart summary</h3>
-		</div>
-		{% for item_id, item_info in cart.items() %}
-		<div class="d-flex justify-content-between align-items-center mb-4">
-			<div class="col-md-2 col-lg-2 col-xl-2">
-				<img
-					src="{{ url_for('static', filename='imgs/products/' + item_info.filename) }}"
-					class="img-fluid rounded-3"
-					alt="Item image"
-				/>
-			</div>
-			<div class="col-md-3 col-lg-3 col-xl-3">
-				<h6 class="text-muted">{{ item_info.category }}</h6>
-				<h6 class="text-black mb-0">{{ item_info.name }}</h6>
-			</div>
-			<div class="d-flex col-sm-3 col-md-3 col-lg-3">
-				<input
-					name="quantity"
-					value="{{ item_info.quantity }}"
-					type="number"
-					class="form-control form-control-sm"
-					disabled
-				/>
-			</div>
-			<div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-				<h6 class="mb-0" style="color: #fff; text-align: end">
-					£ {{ item_info.price }}
-				</h6>
-			</div>
-		</div>
-		<hr />
-		{% endfor %}
-		<div class="d-flex justify-content-between mb-5">
-			<h3 class="fw-bold mb-2 mt-2 pt-1">Total</h3>
-			<h5 class="mb-2 mt-2 pt-1">£ {{ total_price }}</h5>
-		</div>
+<!-- Go through each item in the cart -->
+{% for item_id, item_info in cart.items() %}
+<div class="item-row">
+	<div class="item-row-image" style="flex: 0.8">
+		<img
+			src="{{ url_for('static', filename='imgs/products/' + item_info.filename) }}"
+			class="img-fluid rounded-3"
+			alt="{{ item_info.name }} image"
+		/>
 	</div>
+	<div class="item-row-details" style="flex: 1">
+		<h6 class="small" style="color: #fff">{{ item_info.category }}</h6>
+		<h6 style="color: #fff">{{ item_info.name }}</h6>
+	</div>
+	<div class="item-row-controls" style="flex: 0.6">
+		<input
+			name="quantity"
+			value="{{ item_info.quantity }}"
+			type="number"
+			class="form-control form-control-sm"
+			disabled
+		/>
+	</div>
+	<div class="item-row-price" style="flex: 1; text-align: end">
+		<h6 style="color: #fff">£ {{ item_info.price }}</h6>
+	</div>
+</div>
+
+<hr />
+{% endfor %}
+<!-- Redisplaying total price -->
+<div class="card-right-side-heading mb-4">
+	<h3 class="fw-bold">Total</h3>
+	<h5>£ {{ total_price }}</h5>
 </div>

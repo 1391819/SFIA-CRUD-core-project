@@ -6,178 +6,108 @@
 
 <!-- changing content --->
 {% block content %}
-<!-- if the cart is not empty, we display items and relative buttons -->
-{% if cart %}
 
-<section class="container h-100">
-	<div class="row d-flex justify-content-center align-items-center h-100">
-		<div class="col-12">
-			<div class="card" style="border-radius: 15px; border: none">
-				<div class="row g-0">
-					<div class="col-lg-8">
-						<div class="pt-5 px-5">
-							<div
-								class="d-flex justify-content-between align-items-center mb-5"
-							>
-								<h1 class="fw-bold mb-0">Your Cart</h1>
-							</div>
-							<hr />
+<!-- TODO: Refactor this part. It's very similar to the content of cart_summary.html, just with the extra increase/decrease + remove items buttons -->
 
-							<!-- adding our items -->
-							{% for item_id, item_info in cart.items() %}
-							<div
-								id="cart-item-{{ item_id }}"
-								class="row mb-4 d-flex justify-content-between align-items-center"
-							>
-								<div class="col-md-2 col-lg-2 col-xl-2">
-									<img
-										src="{{ url_for('static', filename='imgs/products/' + item_info.filename) }}"
-										class="img-fluid rounded-3"
-										alt="Item image"
-									/>
-								</div>
-								<div class="col-md-3 col-lg-3 col-xl-3">
-									<h6 class="text-muted">
-										{{ item_info.category }}
-									</h6>
-									<h6 class="text-black mb-0">
-										{{ item_info.name }}
-									</h6>
-								</div>
-								<div class="col-sm-3 col-md-3 col-lg-3 d-flex">
-									<!-- Decrease quantity functionality-->
-									<button
-										type="submit"
-										class="btn btn-link btn-decrease"
-										data-item-id="{{ item_id }}"
-									>
-										<i class="bi bi-chevron-left"></i>
-									</button>
+<div class="container h-100">
+	<div class="card" style="border-radius: 15px; border: none">
+		<div class="pt-5 px-5 card-left-side">
+			<h1 class="fw-bold mb-0">Your Cart</h1>
+			<hr />
 
-									<input
-										name="quantity"
-										value="{{ item_info.quantity }}"
-										id="quantity-{{ item_id }}"
-										type="number"
-										class="form-control form-control-sm"
-										disabled
-									/>
-
-									<button
-										type="submit"
-										class="btn btn-link btn-increase"
-										data-item-id="{{ item_id }}"
-									>
-										<i class="bi bi-chevron-right"></i>
-									</button>
-								</div>
-								<div
-									class="col-md-3 col-lg-2 col-xl-2 offset-lg-1"
-								>
-									<h6 class="mb-0">
-										£ {{ item_info.price }}
-									</h6>
-								</div>
-								<div
-									class="col-md-1 col-lg-1 col-xl-1 text-end"
-								>
-									<!-- This could be done by including a form here - easier, we can easily add CSRF protection as well, or also just keeping the anchor tag and using JS to redirect on click
+			<!-- We check if the cart is not empty-->
+			{% if cart %}
+			<!-- Go through each item in the cart -->
+			{% for item_id, item_info in cart.items() %}
+			<div id="cart-item-{{ item_id }}">
+				<div class="item-row">
+					<div class="item-row-image">
+						<img
+							src="{{ url_for('static', filename='imgs/products/' + item_info.filename) }}"
+							class="img-fluid rounded-3"
+							alt="{{ item_info.name }} image"
+						/>
+					</div>
+					<div class="item-row-details">
+						<h6 class="text-muted">{{ item_info.category }}</h6>
+						<h6>{{ item_info.name }}</h6>
+					</div>
+					<div class="item-row-controls">
+						<!-- Decrease quantity functionality-->
+						<button
+							type="submit"
+							class="btn btn-link btn-decrease"
+							data-item-id="{{ item_id }}"
+						>
+							<i class="bi bi-chevron-left"></i>
+						</button>
+						<input
+							name="quantity"
+							value="{{ item_info.quantity }}"
+							id="quantity-{{ item_id }}"
+							type="number"
+							class="form-control form-control-sm"
+							disabled
+						/>
+						<button
+							type="submit"
+							class="btn btn-link btn-increase"
+							data-item-id="{{ item_id }}"
+						>
+							<i class="bi bi-chevron-right"></i>
+						</button>
+					</div>
+					<div class="item-row-price">
+						<h6>£ {{ item_info.price }}</h6>
+					</div>
+					<!-- This could be done by including a form here - easier, we can easily add CSRF protection as well, or also just keeping the anchor tag and using JS to redirect on click
                                         -->
-									<div>
-										<button
-											type="submit"
-											class="btn btn-link btn-remove"
-											data-item-id="{{ item_id }}"
-										>
-											<i class="bi bi-x-lg"></i>
-										</button>
-									</div>
-								</div>
-
-								<hr />
-							</div>
-
-							{% endfor %}
-						</div>
-					</div>
-					<div class="col-4 cart-right-side">
-						<div class="pt-5 px-5">
-							<div class="d-flex justify-content-between mb-5">
-								<h3 class="fw-bold mb-2 mt-2 pt-1">Total</h3>
-								<h5 class="mb-2 mt-2 pt-1 total-price">
-									£ {{ total_price }}
-								</h5>
-							</div>
-							<div class="d-flex flex-column gap-4 mb-4">
-								<!-- continue shopping -->
-								<a href="/products" class="btn btn-primary"
-									>Continue shopping</a
-								>
-
-								<!-- proceed to checkout -->
-								<form
-									action="{{ url_for('checkout') }}"
-									method="GET"
-								>
-									<button
-										class="btn btn-primary"
-										type="submit"
-										style="width: 100%"
-									>
-										Proceed to Checkout
-									</button>
-								</form>
-							</div>
-						</div>
+					<div class="item-row-remove-item">
+						<button
+							type="submit"
+							class="btn btn-link btn-remove"
+							data-item-id="{{ item_id }}"
+						>
+							<i class="bi bi-x-lg"></i>
+						</button>
 					</div>
 				</div>
+				<hr />
+			</div>
+
+			{% endfor %}
+			<!-- Else tell the user that there are no items in the cart -->
+			{% else %}
+			<div><p>Your cart is currently empty.</p></div>
+			{% endif %}
+		</div>
+		<div class="py-5 px-5 card-right-side">
+			<div class="card-right-side-heading">
+				<h3 class="fw-bold">Total</h3>
+				<h5 class="total-price">£ {{ total_price }}</h5>
+			</div>
+			<div class="card-right-side-controls">
+				{% if cart %}
+				<!-- continue shopping -->
+				<a href="/products" class="btn btn-primary"
+					>Continue shopping</a
+				>
+				{% else %}
+				<a href="/products" class="btn btn-primary">Shop now</a>
+				{% endif %} {% if cart %}
+				<!-- proceed to checkout -->
+				<form action="{{ url_for('checkout') }}" method="GET">
+					<button class="btn btn-primary" type="submit">
+						Checkout
+					</button>
+				</form>
+				{% endif %}
 			</div>
 		</div>
 	</div>
-</section>
+</div>
 
-<!-- else we tell the user that the cart is empty -->
-{% else %}
-
-<section class="container h-100">
-	<div class="row d-flex justify-content-center align-items-center h-100">
-		<div class="col-12">
-			<div class="card" style="border-radius: 15px; border: none">
-				<div class="card-body p-0">
-					<div class="row g-0">
-						<div class="col-lg-8">
-							<div class="pt-5 px-5">
-								<div
-									class="d-flex justify-content-between align-items-center mb-5"
-								>
-									<h1 class="fw-bold mb-0">Your Cart</h1>
-								</div>
-								<hr />
-							</div>
-						</div>
-						<div class="col-4 cart-right-side">
-							<div class="pt-5 px-5">
-								<div class="d-flex justify-content-center mb-5">
-									<h5 class="mb-2 mt-2 pt-1">
-										Your cart is currently empty!
-									</h5>
-								</div>
-								<div class="d-flex flex-column mb-4">
-									<!-- continue shopping -->
-									<a href="/products" class="btn btn-primary"
-										>Shop now</a
-									>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-{% endif %} {% endblock content %}
+{% endblock content %}
 <!-- Scripts: Axios + Updating cart -->
 {% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
