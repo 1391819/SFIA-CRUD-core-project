@@ -107,4 +107,3 @@ A tracking system will be set up in the future
 - Bootstrap 
 - Axios
 - Flask documentation
-- 
