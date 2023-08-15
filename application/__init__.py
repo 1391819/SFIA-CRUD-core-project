@@ -26,6 +26,10 @@ FLASK = os.getenv("FLASK")
 
 if FLASK == "testing":
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+# CAREFUL:
+# need to be really careful about this else statement
+# if we forget to set the environment variable within Jenkins it will pretty much
+# END UP AFFECTING THE PRODUCTION DB
 else:
     # stand-alone database - MySQL
     app.config["SQLALCHEMY_DATABASE_URI"] = (
