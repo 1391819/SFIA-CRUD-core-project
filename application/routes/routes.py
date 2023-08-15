@@ -259,9 +259,6 @@ def checkout():
     # retrieving cart
     cart = session.get("cart", {})
 
-    # retrieving customer data (if he already entered it)
-    customer_data = session.get("customer_data", {})
-
     # if the cart is empty, redirect to the cart page
     if len(cart) < 1:
         return redirect(url_for("cart_page"))
