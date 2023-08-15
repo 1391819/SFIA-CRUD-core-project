@@ -19,10 +19,18 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
 DB_NAME = os.getenv("DB_NAME")
 
-# stand-alone database - MySQL
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    DB_TYPE + DB_USER + DB_PASSWORD + DB_HOST + DB_NAME
-)
+# this will be used to set production or testing db
+# TODO: Something is wrong with the entire db creation. It could be the misusage of app.app_context() but it's a very complicated matter due to different sessions being used within the routes
+
+FLASK = os.getenv("FLASK")
+
+if FLASK == "testing":
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+else:
+    # stand-alone database - MySQL
+    app.config["SQLALCHEMY_DATABASE_URI"] = (
+        DB_TYPE + DB_USER + DB_PASSWORD + DB_HOST + DB_NAME
+    )
 
 # form security
 SECRET_KEY = os.getenv("SECRET_KEY")

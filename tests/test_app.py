@@ -1,23 +1,10 @@
 # TODO: Separate into unit and integration testing. It's never good to have one big file. Modularity is a thing
 
-from application import app, db
+from application import db, app
 from application.models import Items, Categories, Customers, Orders, OrdersItems
 from application.routes.routes import calculate_total_cart_price
 from flask_testing import TestCase
 from flask import url_for
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-# retrieving environment variables from .env file
-DB_TYPE = os.getenv("DB_TYPE")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
-TEST_DB_NAME = os.getenv("TEST_DB_NAME")
-
-SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 # create base class
@@ -27,20 +14,14 @@ class TestBase(TestCase):
         # we shouldn't use production database but testing database
         # a new one should be created (we will just use an sqlite one)
 
-        # TODO: This part does not work
-        # TODO: An entire new app instance needs to be configured in order to not drop any existing data from the production db
-        # it has been set up properly, but it needs fixing
-        # https://stackoverflow.com/questions/27998331/how-to-create-test-database-with-flask-testing
+        # TODO: Check __init__.py under application to find out why this is commented
         app.config.update(
-            SQLALCHEMY_DATABASE_URI=DB_TYPE
-            + DB_USER
-            + DB_PASSWORD
-            + DB_HOST
-            + TEST_DB_NAME,
-            SECRET_KEY=SECRET_KEY,
-            DEBUG=True,
+            # SQLALCHEMY_DATABASE_URI="sqlite:///testdata.sqlite",
+            TESTING=True,
             WTF_CSRF_ENABLED=False,
         )
+
+        # print(app.config["SQLALCHEMY_DATABASE_URI"]) # debug
 
         return app
 
