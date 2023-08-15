@@ -30,6 +30,7 @@ class TestBase(TestCase):
         # TODO: This part does not work
         # TODO: An entire new app instance needs to be configured in order to not drop any existing data from the production db
         # it has been set up properly, but it needs fixing
+        # https://stackoverflow.com/questions/27998331/how-to-create-test-database-with-flask-testing
         app.config.update(
             SQLALCHEMY_DATABASE_URI=DB_TYPE
             + DB_USER
@@ -49,6 +50,8 @@ class TestBase(TestCase):
         db.create_all()
 
         # creating testing categories and products
+        # a few of these might have not been used during the tests
+        # TODO: Remove unused instances
         jeans_category = Categories(name="Jeans")
         skirts_category = Categories(name="Skirt")
         tshirts_category = Categories(name="T-shirt")
