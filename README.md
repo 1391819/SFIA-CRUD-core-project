@@ -70,7 +70,7 @@ Given the initial project brief, the entire MVP was broken down into user storie
 
 ### MVP
 
-Below is the MVP specified within the project brief. Each single requirement has a checkbox next to it specifying whether it has been completed or not.
+Below is the MVP specified within the project brief. Every single requirement has a checkbox next to it specifying whether it has been completed or not.
 
 1. Home page
    - [x] Welcoming page
@@ -283,15 +283,17 @@ There also was the intent to set up a GitHub Webhook in order to automatically t
    ```mysql
       CREATE DATABASE fashionable;
    ```
-2. Create a `.env` file in the project root
+2. Create a `.env` file in the project root which will contain the following
    ```
       DB_TYPE="..."
       DB_USER="..."
       DB_PASSWORD="..."
       DB_HOST="..."
       DB_NAME="..."
+      SECRET_KEY="..."
+      FLASK="production" 
    ```
-3. Set up a virtual environment (Windows)
+3. Set up a virtual environment and activate it (Windows)
    ```bash
       py -m venv venv
       source venv/Scripts/Activate 
@@ -300,7 +302,7 @@ There also was the intent to set up a GitHub Webhook in order to automatically t
    ```bash
       pip install -r requirements.txt
    ```
-5. Run `create.py` to create a mock db with products and items
+5. Run `create.py` to create a mock database with products and items
    ```bash
       py create.py
    ```
@@ -308,13 +310,37 @@ There also was the intent to set up a GitHub Webhook in order to automatically t
    ```bash
       py app.py
    ```
+7. Go to `127.0.0.1:5000/`
 
 ### Performing manual testing
 
+1. Create a `.env` file in the project root which will contain the following
+   ```
+      SECRET_KEY="..."
+      FLASK="testing" 
+   ```
+2. Set up a virtual environment and activate it (Windows)
+   ```bash
+      py -m venv venv
+      source venv/Scripts/Activate 
+   ```
+3. Install required dependencies
+   ```bash
+      pip install -r requirements.txt
+   ```
+4. Manually run tests
+   1. Without coverage report
+      ```bash
+      py -m pytest --cov=application
+      ```
+   2. With coverage report
+      ```bash
+      py -m pytest --cov=application --cov-report html
+      ```
 
 ## References
 - [Banner image](https://unsplash.com/photos/hanged-top-on-brown-and-white-clothes-horse-TS--uNw-JqE)
 - [Products images](https://www.kaggle.com/datasets/vikashrajluhaniwal/fashion-images)
-- Bootstrap 
-- Axios
-- Flask documentation
+- [Bootstrap](https://getbootstrap.com/) 
+- [Axios](https://axios-http.com/docs/intro)
+- [Flask documentation](https://flask.palletsprojects.com/en/2.3.x/)
