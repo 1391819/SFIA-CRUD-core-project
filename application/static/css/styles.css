@@ -1,0 +1,389 @@
+/* ------------------------------------- */
+/* Basic styling setup */
+body {
+    background-color: rgb(219, 223, 234);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Raleway', sans-serif;
+    color: rgb(130, 148, 196);
+}
+
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1.75em;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+p {
+    font-size: 1em;
+}
+
+/* Custom margin top - this has been done since the default classes provided by Bootstrap weren't enough */
+.mt-5-half {
+    margin-top: 5.5em;
+}
+
+/* ------------------------------------- */
+/* Navbar */
+
+.custom-navbar {
+    font-family: 'Raleway', sans-serif;
+    background-color: rgb(130, 148, 196);
+    box-shadow: 0px 2px 10px #00000033;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.navbar-nav .nav-link {
+    color: #ffffff;
+}
+
+.nav-link:hover {
+    color: rgb(219, 223, 234);
+    transform: translateY(-1px);
+}
+
+/* ------------------------------------- */
+/* Home page */
+
+.jumbotron {
+    position: relative;
+    background-image: url("../imgs/banner.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #ffffff;
+    padding: 5em 0;
+    text-align: center;
+    z-index: 1;
+    border-radius: 15px;
+}
+
+.jumbotron::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(130, 148, 196, 0.3);
+    z-index: -1;
+    border-radius: 15px;
+}
+
+.jumbotron h1 {
+    font-size: 3em;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.jumbotron h2 {
+    font-size: 1.5em;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    color: #fff;
+}
+
+.btn-shop-now {
+    background-color: rgb(130, 148, 196);
+    color: #fff!important;
+    font-size: 1.25rem;
+    padding: .3em .8em;
+    border-radius: 15px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.btn-shop-now:hover {
+    background-color: rgb(92, 109, 156);
+}
+
+/* ------------------------------------- */
+/* Home page, products page, categories page */
+/* The following styling has been re-used a lot in many different parts of the site */
+
+.items-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2em 1.5em;
+    justify-items: center;
+    
+}
+
+.items-list a {
+    text-decoration: none;
+}
+
+.item-card {
+    display: flex;
+    border-radius: 15px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 300px;
+    transition: transform 0.2s;
+    background-color: #8294C4; 
+}
+
+.item-card hr {
+    margin-bottom: .5em;
+    margin-top: .5em;
+    color: #fff;
+}
+
+.item-image {
+    flex: 1;
+}
+
+.item-image img {
+    border-radius: 15px;
+    max-width: 100%;
+    height: auto;
+}
+
+.item-info {
+    padding: 1em;
+    color: #fff;
+    flex: 1;
+}
+
+.item-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.item-tags {
+    color: #FFEAD2;
+    font-size: .8em;
+    margin-bottom: 5px;
+}
+
+.item-price {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.item-card:hover {
+    transform: translateY(-2px);
+}
+
+/* ------------------------------------- */
+/* Item details page styling */
+
+.item-details {
+    display: flex;
+    column-gap: 4em;
+}
+
+.item-details-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.item-details-image img {
+    border-radius: 15px;
+    max-width: 80%;
+    height: auto;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+}
+
+.item-details-info {
+    flex: 1;
+}
+
+.buy-now-form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ------------------------------------- */
+/* Categories page */
+.flex-container {
+    display: flex;
+    gap: 4em;
+}
+
+.categories {
+    flex: .1;
+}
+
+.products {
+    flex: 1;
+}
+
+/* ------------------------------------- */
+/* Cart page */
+
+.cart-right-side {
+    background-color: #8294c4;
+}
+
+
+.cart-right-side h3, 
+.cart-right-side h5 {
+    color: #fff;
+}
+
+.item-row {
+    display: flex;
+    align-items: center;
+    gap: 4em;
+}
+
+.item-row-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.item-row-image img {
+    border-radius: 15px;
+    max-width: 80%;
+    height: auto;
+}
+
+.item-row-details {
+    flex: 1;
+}
+
+.item-row-controls {
+    flex: 1;
+    display: flex;
+}
+
+.item-row-price {
+    flex: .4;
+    text-align: center;
+}
+
+.item-row-remove-item {
+    flex: .2;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+}
+
+.card-left-side {
+    flex: 1;
+}
+
+.card-right-side {
+    flex: .3;
+    background-color: #8294c4;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.card-right-side h3, 
+.card-right-side h5 {
+    color: #fff;
+}
+
+.card-right-side-heading {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-right-side-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.card-right-side-controls button {
+    width: 100%;
+}
+
+
+/* ------------------------------------- */
+/* Checkout page */
+.errors {
+    color: red;
+}
+
+.errors p {
+    margin: 0;
+    font-size: .7em;
+}
+
+/* ------------------------------------- */
+/* Media queries */
+/* 
+   This section could be further refactored by simply learning Bootstrap a lot more.
+   However, for this project, time is extremely limited.
+
+   Another thing is: 
+       - Usually, styling should be done for mobile first. 
+       - Media queries would then help with the tablet > design
+       - Again, due to the limited time, this entire styling sheet might be a mess.
+
+
+   */
+
+@media (max-width: 767px) {
+    .flex-grid {
+        justify-content: center;
+    }
+
+    .item-card {
+        flex-direction: column;
+    }
+
+    .item-image, 
+    .item-info {
+        width: 100%;
+    }
+
+    .item-details {
+        flex-direction: column;
+    }
+
+    .item-row {
+        flex-direction: column;
+    }
+
+    .item-row-details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+}
+
+
+@media (max-width: 992px) {
+    .cart-right-side {
+        width: 100%;
+    }
+
+    .flex-container {
+        flex-direction: column;
+    }
+
+    .card {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 1400px) {
+    .item-row {
+        gap: 1em;
+    }
+}

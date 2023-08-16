@@ -1,0 +1,109 @@
+<!-- extending from base layout --->
+{% extends "base.html" %}
+
+<!-- changing title --->
+{% block title %} - Checkout {% endblock title %}
+
+<!-- changing content --->
+{% block content %}
+<div class="container h-100">
+	<div class="card" style="border-radius: 15px; border: none">
+		<div class="pt-5 px-5 card-left-side">
+			<h1 class="fw-bold mb-0">Shipping</h1>
+			<hr />
+
+			<!-- Shipping form here -->
+
+			<form action="" method="POST" class="d-flex flex-column mb-4 gap-4">
+				{{ shipping_form.hidden_tag() }}
+
+				<!-- Name field -->
+				<div>
+					<label for="{{ shipping_form.name.id }}"
+						>{{ shipping_form.name.label.text }}</label
+					>
+					{{ shipping_form.name(class="form-control") }} {% if
+					shipping_form.name.errors %}
+					<div class="errors">
+						{% for error in shipping_form.name.errors %}
+						<p>{{ error }}</p>
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+
+				<!-- Email field -->
+				<div>
+					<label for="{{ shipping_form.email.id }}">
+						{{ shipping_form.email.label.text }}</label
+					>
+					{{ shipping_form.email(class="form-control") }} {% if
+					shipping_form.email.errors %}
+					<div class="errors">
+						{% for error in shipping_form.email.errors %}
+						<p>{{ error }}</p>
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+
+				<!-- Address field -->
+				<div>
+					<label for="{{ shipping_form.address.id }}">
+						{{ shipping_form.address.label.text }}</label
+					>
+					{{ shipping_form.address(class="form-control") }}
+					<!-- Display errors -->
+					{% if shipping_form.address.errors %}
+					<div class="errors">
+						<!-- Going through each error -->
+						{% for error in shipping_form.address.errors %}
+						<p>{{ error }}</p>
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+
+				<!-- Postcode field -->
+				<div>
+					<label for="{{ shipping_form.post_code.id }}">
+						{{ shipping_form.post_code.label.text }}</label
+					>
+					{{ shipping_form.post_code(class="form-control") }} {% if
+					shipping_form.post_code.errors %}
+					<div class="errors">
+						{% for error in shipping_form.post_code.errors %}
+						<p>{{ error }}</p>
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+
+				<!-- Country field -->
+				<div>
+					<label for="{{ shipping_form.country.id }}">
+						{{ shipping_form.country.label.text }}</label
+					>
+					{{ shipping_form.country(class="form-control") }} {% if
+					shipping_form.country.errors %}
+					<div class="errors">
+						{% for error in shipping_form.country.errors %}
+						<p>{{ error }}</p>
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+
+				<!-- Submit field -->
+				<div>{{ shipping_form.submit(class="btn btn-primary") }}</div>
+			</form>
+		</div>
+		<div class="pt-5 px-5 card-right-side" style="flex: 1">
+			<div class="card-right-side-heading">
+				<h3 class="fw-bold">Cart Summary</h3>
+			</div>
+			{% include "cart_summary.html" %}
+		</div>
+	</div>
+</div>
+{% endblock content %}

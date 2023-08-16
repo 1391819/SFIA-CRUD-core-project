@@ -1,0 +1,18 @@
+<!-- This template simply returns a block containing all the products -->
+<!-- extending from base layout --->
+{% extends "base.html" %}
+
+<!-- changing title --->
+{% block title %} - Products {% endblock title %}
+
+<!-- changing content --->
+{% block content %}
+
+<div class="container h-100">
+	<h2>All products</h2>
+	<div class="items-list mt-4">
+		{% for item in items %} {% include "product_card.html" %}{% endfor %}
+	</div>
+</div>
+
+{% endblock content%}

@@ -1,0 +1,115 @@
+<!-- extending from base layout --->
+{% extends "base.html" %}
+
+<!-- changing title --->
+{% block title %} - Cart {% endblock title %}
+
+<!-- changing content --->
+{% block content %}
+
+<!-- TODO: Refactor this part. It's very similar to the content of cart_summary.html, just with the extra increase/decrease + remove items buttons -->
+
+<div class="container h-100">
+	<div class="card" style="border-radius: 15px; border: none">
+		<div class="pt-5 px-5 card-left-side">
+			<h1 class="fw-bold mb-0">Your Cart</h1>
+			<hr />
+
+			<!-- We check if the cart is not empty-->
+			{% if cart %}
+			<!-- Go through each item in the cart -->
+			{% for item_id, item_info in cart.items() %}
+			<div id="cart-item-{{ item_id }}">
+				<div class="item-row">
+					<div class="item-row-image">
+						<img
+							src="{{ url_for('static', filename='imgs/products/' + item_info.filename) }}"
+							class="img-fluid rounded-3"
+							alt="{{ item_info.name }} image"
+						/>
+					</div>
+					<div class="item-row-details">
+						<h6 class="text-muted">{{ item_info.category }}</h6>
+						<h6>{{ item_info.name }}</h6>
+					</div>
+					<div class="item-row-controls">
+						<!-- Decrease quantity functionality-->
+						<button
+							type="submit"
+							class="btn btn-link btn-decrease"
+							data-item-id="{{ item_id }}"
+						>
+							<i class="bi bi-chevron-left"></i>
+						</button>
+						<input
+							name="quantity"
+							value="{{ item_info.quantity }}"
+							id="quantity-{{ item_id }}"
+							type="number"
+							class="form-control form-control-sm"
+							disabled
+						/>
+						<button
+							type="submit"
+							class="btn btn-link btn-increase"
+							data-item-id="{{ item_id }}"
+						>
+							<i class="bi bi-chevron-right"></i>
+						</button>
+					</div>
+					<div class="item-row-price">
+						<h6>£ {{ item_info.price }}</h6>
+					</div>
+					<!-- This could be done by including a form here - easier, we can easily add CSRF protection as well, or also just keeping the anchor tag and using JS to redirect on click
+                                        -->
+					<div class="item-row-remove-item">
+						<button
+							type="submit"
+							class="btn btn-link btn-remove"
+							data-item-id="{{ item_id }}"
+						>
+							<i class="bi bi-x-lg"></i>
+						</button>
+					</div>
+				</div>
+				<hr />
+			</div>
+
+			{% endfor %}
+			<!-- Else tell the user that there are no items in the cart -->
+			{% else %}
+			<div><p>Your cart is currently empty.</p></div>
+			{% endif %}
+		</div>
+		<div class="py-5 px-5 card-right-side">
+			<div class="card-right-side-heading">
+				<h3 class="fw-bold">Total</h3>
+				<h5 class="total-price">£ {{ total_price }}</h5>
+			</div>
+			<div class="card-right-side-controls">
+				{% if cart %}
+				<!-- continue shopping -->
+				<a href="/products" class="btn btn-primary"
+					>Continue shopping</a
+				>
+				{% else %}
+				<a href="/products" class="btn btn-primary">Shop now</a>
+				{% endif %} {% if cart %}
+				<!-- proceed to checkout -->
+				<form action="{{ url_for('checkout') }}" method="GET">
+					<button class="btn btn-primary" type="submit">
+						Checkout
+					</button>
+				</form>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}
+<!-- Scripts: Axios + Updating cart -->
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{{ url_for('static', filename='js/updateCart.js') }}"></script>
+{% endblock scripts %}

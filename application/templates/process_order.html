@@ -1,0 +1,37 @@
+<!-- extending from base layout --->
+{% extends "base.html" %}
+
+<!-- changing title --->
+{% block title %} - Order details {% endblock title %}
+
+<!-- changing content --->
+{% block content %}
+<div class="container h-100">
+	<div class="card" style="border-radius: 15px; border: none">
+		<div class="pt-5 px-5 card-left-side mb-4">
+			<h1 class="fw-bold mb-0">Thank you!</h1>
+			<hr />
+			<p>Your order is being processed.</p>
+		</div>
+		<!-- Can add customer data and order details here -->
+		<div class="pt-5 px-5 card-right-side" style="flex: 1">
+			<div class="card-right-side-heading">
+				<h3 class="fw-bold mb-0">Shipping information</h3>
+			</div>
+
+			<div class="mb-3" style="color: #fff">
+				<h6 class="fw-bold">Name</h6>
+				<p>{{ customer_data.name }}</p>
+				<h6 class="fw-bold">Email</h6>
+				<p>{{ customer_data.email }}</p>
+				<h6 class="fw-bold">Address</h6>
+				<p>{{ customer_data.address }}</p>
+				<h6 class="fw-bold">Post code</h6>
+				<p>{{ customer_data.post_code }}</p>
+				<h6 class="fw-bold">Country</h6>
+				<p>{{ customer_data.country }}</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

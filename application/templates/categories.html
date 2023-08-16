@@ -1,0 +1,37 @@
+<!-- extending from base layout --->
+{% extends "base.html" %}
+
+<!-- changing title --->
+{% block title %} - Categories {% endblock title %}
+
+<!-- changing content --->
+{% block content %}
+<div class="container h-100">
+	<div class="flex-container">
+		<div class="categories">
+			<h2>Categories</h2>
+			<div class="list-group mt-4">
+				{% for category in categories %}
+				<a
+					href="#"
+					class="list-group-item category-item"
+					data-category-id="{{ category.category_id }}"
+					data-category-name="{{ category.name }}"
+				>
+					{{ category.name }}
+				</a>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="products">
+			<h2 class="products-heading">All categories</h2>
+			<div class="items-list mt-4"></div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+<!-- Scripts: Axios + Loading products based on picked category -->
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{{ url_for('static', filename='js/categoriesProducts.js') }}"></script>
+{% endblock scripts %}

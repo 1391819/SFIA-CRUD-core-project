@@ -1,0 +1,35 @@
+<!-- Go through each item in the cart -->
+{% for item_id, item_info in cart.items() %}
+<div class="item-row">
+	<div class="item-row-image" style="flex: 0.8">
+		<img
+			src="{{ url_for('static', filename='imgs/products/' + item_info.filename) }}"
+			class="img-fluid rounded-3"
+			alt="{{ item_info.name }} image"
+		/>
+	</div>
+	<div class="item-row-details" style="flex: 1">
+		<h6 class="small" style="color: #fff">{{ item_info.category }}</h6>
+		<h6 style="color: #fff">{{ item_info.name }}</h6>
+	</div>
+	<div class="item-row-controls" style="flex: 0.6">
+		<input
+			name="quantity"
+			value="{{ item_info.quantity }}"
+			type="number"
+			class="form-control form-control-sm"
+			disabled
+		/>
+	</div>
+	<div class="item-row-price" style="flex: 1; text-align: end">
+		<h6 style="color: #fff">£ {{ item_info.price }}</h6>
+	</div>
+</div>
+
+<hr />
+{% endfor %}
+<!-- Redisplaying total price -->
+<div class="card-right-side-heading mb-4">
+	<h3 class="fw-bold">Total</h3>
+	<h5>£ {{ total_price }}</h5>
+</div>

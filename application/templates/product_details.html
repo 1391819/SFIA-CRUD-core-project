@@ -1,0 +1,63 @@
+<!-- This template has been used to create single pages for each item (details) -->
+<!-- extending from base layout --->
+{% extends "base.html" %}
+
+<!-- changing title according to selected item --->
+{% block title %} - {{ item.name }} {% endblock title %}
+
+<!-- changing content --->
+{% block content %}
+
+<div class="container h-100">
+	<h2 class="fw-bold">{{ item.name }}</h2>
+	<div class="item-details mt-4">
+		<div class="item-details-image">
+			<img
+				src="{{ url_for('static', filename='imgs/products/' + item.filename) }}"
+				alt="{{ item.name }} image"
+			/>
+		</div>
+		<div class="item-details-info mt-4">
+			<h3>Category</h3>
+			<p>{{ item.category.name }}</p>
+			<h3>Price</h3>
+			<p>£{{ item.price }}</p>
+			<h3>Left in stock</h3>
+			{% if item.stock > 0 %}
+			<p>{{ item.stock }}</p>
+			{% else %}
+			<p>Out of stock</p>
+			{% endif %}
+
+			<!-- Add to cart functionality -->
+			<!-- Only if the item is in stock -->
+
+			{% if item.stock > 0%}
+			<h3 class="fw-bold mt-4">Buy now</h3>
+
+			<form
+				method="POST"
+				action="{{ url_for('add_to_cart', item_id=item.item_id) }}"
+				class="buy-now-form"
+			>
+				<label for="quantity">Quantity: </label>
+				<input
+					type="number"
+					name="quantity"
+					id="quantity"
+					class="form-control mt-2"
+					value="1"
+					min="1"
+					max="{{ item.stock }}"
+					required
+				/>
+				<br />
+				<button class="btn btn-shop-now" type="submit">
+					Add to cart
+				</button>
+			</form>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock content%}

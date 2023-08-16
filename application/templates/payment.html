@@ -1,0 +1,94 @@
+<!-- extending from base layout --->
+{% extends "base.html" %}
+
+<!-- changing title --->
+{% block title %} - Checkout {% endblock title %}
+
+<!-- changing content --->
+{% block content %}
+<div class="container h-100">
+	<div class="card" style="border-radius: 15px; border: none">
+		<div class="pt-5 px-5 card-left-side">
+			<h1 class="fw-bold mb-0">Payment</h1>
+			<hr />
+
+			<!-- Payment form here -->
+
+			<form action="" method="POST" class="d-flex flex-column mb-4 gap-4">
+				{{ payment_form.hidden_tag() }}
+
+				<!-- Cardholder Name field -->
+				<div>
+					<label for="{{ payment_form.cardholder_name.id }}"
+						>{{ payment_form.cardholder_name.label.text }}</label
+					>
+					{{ payment_form.cardholder_name(class="form-control") }} {%
+					if payment_form.cardholder_name.errors %}
+					<div class="errors">
+						{% for error in payment_form.cardholder_name.errors %}
+						<p>{{ error }}</p>
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+
+				<!-- Card Number field -->
+				<div>
+					<label for="{{ payment_form.card_number.id }}">
+						{{ payment_form.card_number.label.text }}</label
+					>
+					{{ payment_form.card_number(class="form-control") }} {% if
+					payment_form.card_number.errors %}
+					<div class="errors">
+						{% for error in payment_form.card_number.errors %}
+						<p>{{ error }}</p>
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+
+				<!-- Expiry Date field -->
+				<div>
+					<label for="{{ payment_form.expiry_date.id }}">
+						{{ payment_form.expiry_date.label.text }}</label
+					>
+					{{ payment_form.expiry_date(class="form-control") }}
+					<!-- Display errors -->
+					{% if payment_form.expiry_date.errors %}
+					<div class="errors">
+						<!-- Going through each error -->
+						{% for error in payment_form.expiry_date.errors %}
+						<p>{{ error }}</p>
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+
+				<!-- Security code field -->
+				<div>
+					<label for="{{ payment_form.security_code.id }}">
+						{{ payment_form.security_code.label.text }}</label
+					>
+					{{ payment_form.security_code(class="form-control") }} {% if
+					payment_form.security_code.errors %}
+					<div class="errors">
+						{% for error in payment_form.security_code.errors %}
+						<p>{{ error }}</p>
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+
+				<!-- Submit field -->
+				<div>{{ payment_form.submit(class="btn btn-primary") }}</div>
+			</form>
+		</div>
+		<div class="pt-5 px-5 card-right-side" style="flex: 1">
+			<div class="card-right-side-heading">
+				<h3 class="fw-bold">Cart Summary</h3>
+			</div>
+			{% include "cart_summary.html" %}
+		</div>
+	</div>
+</div>
+{% endblock content %}
