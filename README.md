@@ -267,7 +267,7 @@ Regarding the code which has not been covered in the current testing, it is part
 
 ### Jenkins
 
-One important point to make is that we decided to use Jenkins as a build server in such a way as to not have to manually run the tests every time. To do so, we set up a freestyle job and achieved the artifacts on build trigger. The latter uses a testing SQLite database which is saved in memory and does not affect our "production" database.
+One important point to make is that we decided to use Jenkins as a build server in such a way as to not have to manually run the tests every time. To do so, we set up a freestyle job and achieved the artefacts on the build trigger. The latter uses a testing SQLite database which is saved in memory and does not affect our "production" database.
 
 
 ![Jenkins job artefacts](/readme_utils/jenkins-job-artefacts.png)
@@ -283,14 +283,14 @@ There also was the intent to set up a GitHub Webhook in order to automatically t
    ```mysql
       CREATE DATABASE fashionable;
    ```
-2. Create a `.env` file in the project root which will contain the following
+2. Create a `.env` file in the project root which will contain the following (used to connect)
    ```
-      DB_TYPE="..."
-      DB_USER="..."
-      DB_PASSWORD="..."
-      DB_HOST="..."
-      DB_NAME="..."
-      SECRET_KEY="..."
+      DB_TYPE="mysql+pymysql://"
+      DB_USER="<your_username>:"
+      DB_PASSWORD="<your_database_password>"
+      DB_HOST="@<host_name>:<port_number>"
+      DB_NAME="/<your_database_name>"
+      SECRET_KEY="<your_secret_key>"
       FLASK="production" 
    ```
 3. Set up a virtual environment and activate it (Windows)
@@ -316,7 +316,7 @@ There also was the intent to set up a GitHub Webhook in order to automatically t
 
 1. Create a `.env` file in the project root which will contain the following
    ```
-      SECRET_KEY="..."
+      SECRET_KEY="<your_secret_key>"
       FLASK="testing" 
    ```
 2. Set up a virtual environment and activate it (Windows)
