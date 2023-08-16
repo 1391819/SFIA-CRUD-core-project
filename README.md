@@ -100,11 +100,13 @@ Below is the MVP specified within the project brief. Every single requirement ha
 5. Checkout page
    - [x] Display a summary of the cart
    - [x] Be part of the overall site navigation
+     - Note: access is restricted unless the cart is not empty
    - [x] Allow users to enter their shipping information
 
 6. Payment page
    - [x] Collect payment information from the users such as cardholder's name, card number, expiry date, and security code/CVC
    - [x] Be part of the overall site navigation
+     - Note: access is restricted unless the checkout page has not been submitted
    - [x] Include a mechanism for passing on the payment details to a mock external payment processor
 
 7. Contact us page
