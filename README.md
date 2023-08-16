@@ -6,7 +6,7 @@ A simple online storefront regarding fashion and clothing.
 
 The following sections highlight the main parts of the project, according to the brief specification. 
 
-For a more in-depth review of the entire development workflow, please check the `workflow.pdf` file within this repository. The latter contains screenshots accompanied by relatively short captions depicting the entire project development step by step, including any major problems encountered.
+For a more in-depth review of the entire development workflow, please check the `workflow.pdf` file within this repository. The latter contains screenshots accompanied by relatively short captions depicting the entire project development step by step, including any major problems encountered and more details on the sections discussed below.
 
 ## Project Structure
 
