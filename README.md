@@ -66,7 +66,7 @@ Given the initial project brief, the entire MVP was broken down into user storie
    2. *prioritisation*
       - lowest to highest
 
-Putting all the user stories in this README is most likely impossible. However, they can be easily seen within the `workflow.pdf` file.
+![User stories](/readme_utils/user_stories.png)
 
 ### MVP
 
