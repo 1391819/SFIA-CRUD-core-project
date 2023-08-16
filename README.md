@@ -6,7 +6,12 @@ A simple online storefront regarding fashion and clothing.
 
 The following sections highlight the main parts of the project, according to the brief specification. 
 
-For a more in-depth review of the entire development workflow, please check the `workflow.pdf` file within this repository. The latter contains screenshots accompanied by relatively short captions depicting the entire project development step by step, including any major problems encountered and more details on the sections discussed below.
+For a more in-depth review of the entire development workflow, please check the `workflow.pdf` file within this repository. The latter contains screenshots accompanied by relatively short captions depicting the entire project development step by step, including:
+
+- how the project design has developed over time
+- any major problems encountered
+- more details on the sections discussed below
+- Jira project details (backlog items left, cumulative flow diagram, burnup reports, and project timeline)
 
 ## Project Structure
 
@@ -261,7 +266,8 @@ Proper coding standards have been followed together with sufficient comments. Mo
 - [ ] Implement a risk assessment matrix
 - [ ] Implement and review payment processing
   - at the moment, it is only a `process_payment` function which always returns `"success"`
-
+- [ ] Implemented `Country` dropdown within the `checkout` page
+- [ ] Add custom form validators to the `checkout` page
 
 ## Testing
 
