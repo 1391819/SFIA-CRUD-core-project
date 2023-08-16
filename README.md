@@ -109,7 +109,7 @@ Below is the MVP specified within the project brief. Every single requirement ha
      - Note: access is restricted unless the checkout page has not been submitted
    - [x] Include a mechanism for passing on the payment details to a mock external payment processor
 
-7. Contact us page
+7. Contact Us page
    - [ ] Include store address, phone number, and email
    - [ ] Be part of the overall site navigation
    - [ ] Include a contact form for users to submit inquiries or feedback
@@ -118,6 +118,21 @@ Below is the MVP specified within the project brief. Every single requirement ha
    - [ ] Be part of the overall site navigation
    - [ ] Provide information about the store, its mission, and its history
    - [ ] Include information about the team behind the store
+
+
+### Reasoning behind unfinished parts of the MVP
+
+The main reason why some parts of the MVP have not been completed (mainly everything regarding the Contact Us and 
+the About Us page) is simply the limited given time. Whilst the About Us page's features were considered to be low in 
+priority due to it not having any real functional contribution towards the application, the same cannot be said 
+regarding the Contact Us page. 
+
+More particularly, the latter contains one key component (i.e., submit customer feedback form) which was of a high 
+priority. However, implementing this feature would have required an entire review of the analysis and design stages of
+the SDLC. A new model would have most likely needed to be created in order to keep track of all the feedback sent by 
+each user. Moreover, additional answers would have needed to be given to questions such as "Are both users and customers
+able to send a feedback form? How would we implement an open ticket feature to keep track of unanswered feedback?" and
+so on.
 
 ### Risk Assessment
 
