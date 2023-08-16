@@ -174,7 +174,7 @@ With that being said, here is the most up-to-date version:
 
 Similar to the creation of the ERD, defining our classes/models and reviewing how they would have interacted with each other was something that needed to be done in order to set up a good foundation for the later SDLC stages (i.e., coding, testing). 
 
-Unfortunately, due to the limited time available for the completion of this project, many "problems" have not been addressed. For instance, the `shipping_address` field within the `Orders` module can be further improved from a modularity point of view. Additionally, the `filename` field within the `Items` class is - funnily - ambiguous. However, in the current state and for what was achievable, all the modules were successfully designed following the 3 normalisation forms.
+Unfortunately, due to the limited time available for the completion of this project, many "problems" have not been addressed. For instance, the `shipping_address` field within the `Orders` module can be further improved from a modularity point of view. Additionally, the `filename` field within the `Items` class is - funnily - ambiguous, and the `email` field in the `Customers` module could effectively be used as the *primary key* instead of `customer_id`. However, in the current state and for what was achievable, all the modules were successfully designed following the 3 normalisation forms.
 
 Here we can see how the models interact with each other using the Reverse Engineer feature of MySQL Workbench:
 
