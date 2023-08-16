@@ -230,7 +230,7 @@ Moreover, a more in-depth specification regarding the components can be found be
 
 The entire project has been developed using industry standards when discussing topics such as Continuous Integration or Version Control. 
 
-For each new feature added to the project, a new `feature-___` branch has been created (although with certain discrepancies due to the limited time). Additionally, two main branches have been used to contain the application as a whole: `dev`, for stable OR unstable versions of the application (not for the end-user) and `main`, which is what the end-user would effectively see and get.
+For each new feature added to the project, a new `feature-___` branch has been created (although with certain discrepancies due to the limited time). Additionally, two main branches have been used to contain the application as a whole: `dev`, for stable OR unstable versions of the application (not for the end-user) and `main`, which is what the end-user would effectively get and must be stable (thus why the `dev` branch has been merged to it only as a last step - v1.0).
 
 ### Documentation and coding standards
 
