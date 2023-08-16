@@ -282,64 +282,104 @@ There also was the intent to set up a GitHub Webhook in order to automatically t
 ### Normal application usage
 
 1. Create a database using MySQL
-   ```mysql
+   ```SQL
       CREATE DATABASE fashionable;
    ```
-2. Create a `.env` file in the project root which will contain the following (used to connect)
-   ```
+2. Create a `.env` file in the project root which will contain the following
+   ```sh
       DB_TYPE="mysql+pymysql://"
       DB_USER="<your_username>:"
       DB_PASSWORD="<your_database_password>"
       DB_HOST="@<host_name>:<port_number>"
-      DB_NAME="/<your_database_name>"
+      DB_NAME="/fashionable"
       SECRET_KEY="<your_secret_key>"
       FLASK="production" 
    ```
 3. Set up a virtual environment and activate it (Windows)
-   ```bash
+   ```sh
       py -m venv venv
       source venv/Scripts/Activate 
    ```
 4. Install required dependencies
-   ```bash
+   ```sh
       pip install -r requirements.txt
    ```
 5. Run `create.py` to create a mock database with products and items
-   ```bash
+   ```sh
       py create.py
    ```
 6. Run `app.py` to start the application
-   ```bash
+   ```sh
       py app.py
    ```
 7. Go to `127.0.0.1:5000/`
 
 ### Performing manual testing
 
-1. Create a `.env` file in the project root which will contain the following
-   ```
-      SECRET_KEY="<your_secret_key>"
+1. Change the `FLASK` environment variable in the `.env` file created previously
+   ```sh
       FLASK="testing" 
    ```
 2. Set up a virtual environment and activate it (Windows)
-   ```bash
+   ```sh
       py -m venv venv
       source venv/Scripts/Activate 
    ```
 3. Install required dependencies
-   ```bash
+   ```sh
       pip install -r requirements.txt
    ```
 4. Manually run tests
    1. Without coverage report
-      ```bash
+      ```sh
       py -m pytest --cov=application
       ```
    2. With coverage report
-      ```bash
+      ```sh
       py -m pytest --cov=application --cov-report html
       ```
 
+### Performing testing using Jenkins
+
+1. Create a database using MySQL
+   ```SQL
+      CREATE DATABASE fashionable;
+   ```
+2. Set up a Jenkins job
+   1. Freestyle project
+   2. Source Code Management 
+      1. Select Git
+      2. Enter the repository URL
+      3. Specify `*/dev` as the branch to build
+   3. Build Environment (set up environment variables)
+      - `DB_TYPE`
+        - Must be set to `mysql+pymysql://`
+      - `DB_USER`
+        - `<your_username>:` 
+        - be careful about which hosts your user has access from
+      - `DB_PASSWORD`
+        - `<your_database_password>`
+      - `DB_HOST`
+        - `@<host_name>:<port_number>`
+      - `SECRET_KEY`
+        - Your secret key
+      - `DB_NAME`
+        - Must be set to `fashionable` 
+        - else just the database name you created for the project
+      - `FLASK`
+        - Must be set to `testing` in order to not override the production database 
+   4. Create an execute shell build step
+      ```sh
+         sudo apt update && sudo apt install python3 python3-pip python3-venv -y
+         python3 -m venv venv
+         bash -c "source venv/bin/activate"
+         pip3 install -r requirements.txt
+         python3 -m pytest --cov=application --cov-report html
+      ```
+   5. Set up two post-build actions
+      1. Achieve the artefacts
+         - `htmlcov/*`
+      2. Delete workspace when the build is done
 ## References
 - [Banner image](https://unsplash.com/photos/hanged-top-on-brown-and-white-clothes-horse-TS--uNw-JqE)
 - [Products images](https://www.kaggle.com/datasets/vikashrajluhaniwal/fashion-images)
